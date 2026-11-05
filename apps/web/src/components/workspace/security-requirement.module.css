@@ -1,0 +1,177 @@
+.content {
+  width: min(1180px, 100%);
+  min-width: 0;
+  margin-inline: auto;
+  padding: clamp(18px, 4vw, 42px);
+}
+
+.requirement {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: clamp(18px, 3vw, 28px);
+  color: var(--theme-warning-text);
+  background: var(--theme-warning-bg);
+  border: 1px solid var(--theme-warning-border);
+  border-radius: 18px;
+  overflow-wrap: anywhere;
+}
+
+.requirement h1,
+.requirement h2 {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(23px, 4vw, 30px);
+}
+
+.requirement p {
+  margin: 0;
+  max-width: 76ch;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.requirement button {
+  width: fit-content;
+  min-height: 44px;
+}
+
+.acknowledgement {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.acknowledgement input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-block: 2px;
+  accent-color: var(--theme-warning-text);
+}
+
+.recovery {
+  min-width: 0;
+  scroll-margin-top: 110px;
+}
+
+.recovery button,
+.requirement label {
+  min-height: 44px;
+}
+
+.recovery:focus-visible,
+.requirement :focus-visible {
+  outline: 3px solid var(--theme-success-text);
+  outline-offset: 3px;
+}
+
+.recovery code {
+  overflow-wrap: anywhere;
+}
+
+/* Existing security layout, made readable and operable on narrow phones. */
+.centre {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  overflow-wrap: anywhere;
+}
+
+.centre :global(.security-grid) {
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+}
+
+.centre :global(.security-card),
+.centre :global(.security-card) > header > div,
+.centre :global(.security-centre__hero) > div {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.centre :global(.security-card) > header {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.centre :global(.security-card) > header span {
+  color: var(--theme-muted);
+  font-size: 11px;
+}
+
+.centre :global(.security-card) > header > em,
+.centre :global(.session-list) strong em {
+  max-width: 100%;
+  white-space: normal;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.centre :global(.security-card) p,
+.centre :global(.security-notice),
+.centre :global(.security-factor-list) strong,
+.centre :global(.session-list) strong,
+.centre :global(.session-current),
+.centre :global(.security-score) strong {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.centre :global(.security-factor-list) small,
+.centre :global(.session-list) small,
+.centre :global(.security-score) small {
+  color: var(--theme-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: normal;
+  overflow: visible;
+}
+
+.centre :global(.security-card) button,
+.centre :global(.mfa-enrollment) > a,
+.centre :global(.mfa-enrollment) input {
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.centre :global(.mfa-enrollment) input {
+  max-width: 100%;
+  font-size: 16px;
+  border-color: var(--theme-border);
+}
+
+.centre :global(.mfa-enrollment) label span {
+  font-size: 13px;
+}
+
+.centre :global(.mfa-enrollment) > a {
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.centre :global(.mfa-enrollment) > code,
+.centre :global(.recovery-codes) code {
+  font-size: 14px;
+}
+
+.centre :global(.recovery-codes) > div {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+}
+
+.centre :global(.session-list) > div {
+  border-color: var(--theme-border-soft);
+}
+
+.centre :global(.session-device) i:first-child { border-color: var(--theme-muted); }
+.centre :global(.session-device) i:last-child { background: var(--theme-muted); }
+
+.centre :focus-visible {
+  outline: 3px solid var(--theme-success-text);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+  .centre :global(.security-grid) { grid-template-columns: minmax(0, 1fr); }
+}

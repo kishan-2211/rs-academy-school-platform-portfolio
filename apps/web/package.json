@@ -1,0 +1,32 @@
+{
+  "name": "@educore/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "check": "next typegen && tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "test": "node --experimental-strip-types --import ./scripts/i18n-test-register.mjs --test",
+    "test:i18n": "node --experimental-strip-types --import ./scripts/i18n-test-register.mjs src/lib/i18n/locale.test.mjs",
+    "format": "prettier --check ."
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "5.3.0",
+    "@fontsource-variable/newsreader": "5.3.0",
+    "@lottiefiles/dotlottie-react": "0.19.13",
+    "next": "16.4.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.2",
+    "eslint": "9.38.0",
+    "eslint-config-next": "16.4.1",
+    "prettier": "3.5.3",
+    "typescript": "5.8.3"
+  }
+}

@@ -1,0 +1,10 @@
+apis:
+  educore@v1:
+    root: packages/contracts/openapi.yaml
+
+extends:
+  - recommended
+
+rules:
+  no-server-example.com: error
+  spec-strict-refs: error

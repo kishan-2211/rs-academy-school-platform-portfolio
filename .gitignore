@@ -1,0 +1,53 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+.envrc
+.npmrc
+.pypirc
+.netrc
+credentials.json
+service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# JavaScript
+node_modules/
+.pnpm-store/
+.next/
+out/
+coverage/
+.turbo/
+*.tsbuildinfo
+pnpm-debug.log*
+
+# Java
+target/
+.m2/
+*.class
+*.log
+.mvn/timing.properties
+
+# IDE and operating system
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Local infrastructure and generated data
+.data/
+backups/
+dist/
+tmp/
+uploads/
+private-uploads/
+storage/
+secrets/
+credentials/
+.build-tmp/

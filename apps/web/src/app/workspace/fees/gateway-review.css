@@ -1,0 +1,40 @@
+.gateway-review { display: grid; gap: 20px; color: var(--theme-text); }
+.gateway-review > header { max-width: 780px; }
+.gateway-review > header > span { color: var(--theme-muted); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.gateway-review h2 { margin: 8px 0; font-family: var(--font-display), serif; font-size: clamp(24px, 3vw, 36px); }
+.gateway-review p { margin: 6px 0; font-size: 13px; line-height: 1.65; }
+.gateway-review > header p, .gateway-review__summary, .gateway-review dt { color: var(--theme-muted); }
+.gateway-review__filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; padding: 18px; border: 1px solid var(--theme-border); border-radius: 16px; background: var(--theme-surface); }
+.gateway-review label { display: grid; gap: 7px; font-size: 12px; font-weight: 750; }
+.gateway-review__filters label:first-child { flex: 1 1 230px; }
+.gateway-review__filters label:nth-child(2) { flex: 1 1 180px; }
+.gateway-review input, .gateway-review select, .gateway-review textarea { width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid var(--theme-border); border-radius: 10px; color: var(--theme-text); background: var(--theme-input); font: inherit; font-size: 14px; }
+.gateway-review textarea { min-height: 70px; resize: vertical; }
+.gateway-review button { min-height: 44px; padding: 10px 16px; border: 1px solid var(--theme-border); border-radius: 10px; background: var(--theme-action-bg); color: var(--theme-action-text); font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+.gateway-review button:hover:not(:disabled) { background: var(--theme-action-hover); }
+.gateway-review :is(input, select, textarea, button):focus-visible { outline: 3px solid var(--theme-text); outline-offset: 3px; }
+.gateway-review :disabled { opacity: .6; cursor: not-allowed; }
+.gateway-review__alert { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 18px; border: 1px solid var(--theme-warning-border); border-radius: 12px; background: var(--theme-warning-bg); color: var(--theme-warning-text); }
+.gateway-review__alert p { flex: 1 1 200px; }
+.gateway-review__alert--error { color: var(--theme-error-text); background: var(--theme-error-bg); border-color: var(--theme-error-border); }
+.gateway-review__alert--success { color: var(--theme-success-text); background: var(--theme-success-bg); border-color: var(--theme-success-border); }
+.gateway-review__list { display: grid; gap: 16px; }
+.gateway-review__list > article { min-width: 0; padding: 22px; border: 1px solid var(--theme-border); border-radius: 18px; background: var(--theme-card); box-shadow: var(--theme-shadow-soft); }
+.gateway-review__list article > header { display: flex; flex-wrap: wrap; align-items: start; gap: 14px; }
+.gateway-review__list article > header > div { flex: 1 1 200px; }
+.gateway-review h3 { margin: 0; font-size: 18px; }
+.gateway-review__list article header strong { font-size: 21px; }
+.gateway-review__badge { padding: 7px 10px; border: 1px solid var(--theme-warning-border); border-radius: 99px; color: var(--theme-warning-text); background: var(--theme-warning-bg); font-size: 12px; font-weight: 800; }
+.gateway-review__badge--posted { border-color: var(--theme-success-border); color: var(--theme-success-text); background: var(--theme-success-bg); }
+.gateway-review dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 20px 0; }
+.gateway-review dt { font-size: 12px; }
+.gateway-review dd { margin: 6px 0 0; font-size: 14px; overflow-wrap: anywhere; }
+.gateway-review__reference { font-family: monospace; }
+.gateway-review__hold, .gateway-review__restricted { padding: 12px 14px; border-left: 3px solid var(--theme-warning-border); color: var(--theme-warning-text); background: var(--theme-warning-bg); }
+.gateway-review__posting { display: grid; grid-template-columns: minmax(170px, .7fr) minmax(220px, 1.3fr) auto; gap: 14px; align-items: end; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--theme-border-soft); }
+.gateway-review__posting p { grid-column: 1 / -1; color: var(--theme-muted); }
+.gateway-review__empty { padding: 26px; border: 1px dashed var(--theme-border); border-radius: 16px; background: var(--theme-surface); }
+.gateway-review__empty p { color: var(--theme-muted); }
+.gateway-review__pagination { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; font-size: 13px; }
+@media (max-width: 900px) { .gateway-review__posting { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gateway-review__posting > button { grid-column: 1 / -1; } }
+@media (max-width: 600px) { .gateway-review__list > article { padding: 17px; } .gateway-review dl, .gateway-review__posting { grid-template-columns: minmax(0, 1fr); } .gateway-review__filters > button { flex: 1; } .gateway-review__badge { max-width: 100%; } }

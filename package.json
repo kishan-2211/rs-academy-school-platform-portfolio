@@ -1,0 +1,25 @@
+{
+  "name": "educore-school-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Production-oriented school website, ERP, portals, and mobile-ready API.",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=22.0.0 <25"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @educore/web dev",
+    "dev:web": "pnpm --filter @educore/web dev",
+    "test:api": "mvn -B -ntp -f apps/api/pom.xml verify",
+    "run:api": "mvn -f apps/api/pom.xml spring-boot:run",
+    "build": "pnpm -r build",
+    "check:openapi": "node --test scripts/yaml-security.test.mjs && node scripts/validate-openapi.mjs",
+    "check": "pnpm -r check",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "format": "pnpm -r format"
+  },
+  "devDependencies": {
+    "js-yaml": "4.3.2"
+  }
+}

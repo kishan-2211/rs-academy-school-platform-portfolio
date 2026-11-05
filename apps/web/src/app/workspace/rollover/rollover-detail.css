@@ -1,0 +1,319 @@
+.rollover-student-list {
+  overflow: hidden;
+  border: 1px solid var(--theme-border);
+  border-radius: 15px;
+}
+.rollover-student-list > header,
+.rollover-student-list > article {
+  display: grid;
+  grid-template-columns:
+    minmax(190px, 1.2fr) minmax(90px, 0.5fr) minmax(125px, 0.65fr) minmax(210px, 1.25fr)
+    minmax(190px, 1fr) 62px;
+  align-items: center;
+  gap: 11px;
+}
+.rollover-student-list > header {
+  padding: 10px 13px;
+  background: var(--theme-bg-soft);
+  color: var(--theme-muted);
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.rollover-student-list > article {
+  padding: 13px;
+  border-top: 1px solid var(--theme-border);
+  background: var(--theme-card);
+}
+.rollover-student-list > article.is-pending {
+  background: var(--theme-bg-soft);
+}
+.rollover-student-list > article > div:not(.rollover-student):not(.rollover-target) {
+  display: grid;
+  gap: 4px;
+}
+.rollover-student-list > article > div > b {
+  font-size: 11px;
+}
+.rollover-student-list > article > div > small {
+  color: var(--theme-muted);
+  font-size: 9px;
+}
+.rollover-student-list label {
+  gap: 4px;
+}
+.rollover-student-list label > span {
+  font-size: 8px;
+}
+.rollover-student-list input,
+.rollover-student-list select {
+  min-height: 37px;
+  padding: 7px 8px;
+  font-size: 10px;
+}
+.rollover-student-list article > em {
+  justify-self: end;
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: var(--theme-warning-bg);
+  color: var(--theme-warning-text);
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+.rollover-student-list article > em[data-state="READY"] {
+  background: var(--theme-success-bg);
+  color: var(--theme-success-text);
+}
+.rollover-student {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.rollover-student > span {
+  display: grid;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--theme-success-bg);
+  color: var(--theme-success-text);
+  font-size: 9px;
+  font-weight: 850;
+}
+.rollover-student > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.rollover-student strong,
+.rollover-student small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rollover-student strong {
+  font-size: 11px;
+}
+.rollover-student small {
+  color: var(--theme-muted);
+  font-size: 9px;
+}
+.rollover-target {
+  display: grid;
+  grid-template-columns: minmax(125px, 1fr) 74px;
+  gap: 7px;
+}
+.rollover-target > label:only-child {
+  grid-column: 1/-1;
+}
+.rollover-empty {
+  display: grid;
+  min-height: 190px;
+  place-items: center;
+  align-content: center;
+  padding: 28px;
+  text-align: center;
+}
+.rollover-empty svg {
+  width: 29px;
+  height: 29px;
+  margin-bottom: 12px;
+  color: var(--theme-success-text);
+}
+.rollover-empty strong {
+  font-size: 13px;
+}
+.rollover-empty span {
+  max-width: 420px;
+  margin-top: 6px;
+  color: var(--theme-muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+.rollover-empty--large {
+  min-height: 260px;
+  border: 1px dashed var(--theme-border);
+  border-radius: 20px;
+  background: var(--theme-bg-soft);
+}
+.rollover-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+}
+.rollover-pagination button {
+  min-height: 36px;
+  background: var(--theme-bg-soft);
+  color: var(--theme-success-text);
+}
+.rollover-pagination span {
+  color: var(--theme-muted);
+  font-size: 10px;
+}
+.rollover-preview-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin-top: 16px;
+  padding: 20px 22px;
+  border-radius: 17px;
+  background: var(--rollover-preview-bg);
+  color: var(--rollover-inverse-text);
+}
+.rollover-preview-action > div {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.rollover-preview-action svg {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  color: var(--rollover-inverse-text);
+}
+.rollover-preview-action > div > span {
+  display: grid;
+  gap: 5px;
+}
+.rollover-preview-action strong {
+  font-size: 13px;
+}
+.rollover-preview-action small {
+  max-width: 750px;
+  color: var(--rollover-inverse-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+.rollover-preview-action button {
+  flex: 0 0 auto;
+}
+
+.rollover-review {
+  border-color: var(--theme-border);
+  background: var(--theme-bg-soft);
+}
+.rollover-review > header p {
+  margin: 9px 0 0;
+  color: var(--theme-muted);
+  font-size: 10px;
+}
+.rollover-review > header em {
+  background: var(--theme-warning-bg);
+  color: var(--theme-warning-text);
+}
+.rollover-counts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+.rollover-counts article {
+  display: grid;
+  gap: 5px;
+  padding: 18px;
+  border: 1px solid var(--theme-border);
+  border-radius: 14px;
+  background: var(--theme-card);
+}
+.rollover-counts span {
+  color: var(--theme-muted);
+  font-size: 9px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+.rollover-counts strong {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 500;
+}
+.rollover-counts small {
+  color: var(--theme-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+.rollover-warnings {
+  margin-top: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--theme-warning-border);
+  border-radius: 13px;
+  background: var(--theme-warning-bg);
+  color: var(--theme-warning-text);
+}
+.rollover-warnings > strong {
+  font-size: 11px;
+}
+.rollover-warnings ul {
+  display: grid;
+  gap: 5px;
+  margin: 9px 0 0;
+  padding-left: 18px;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.rollover-execute {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.15fr) minmax(210px, 1fr) minmax(210px, 1fr) auto;
+  align-items: end;
+  gap: 12px;
+  margin-top: 17px;
+  padding: 19px;
+  border-radius: 16px;
+  background: var(--rollover-execute-bg);
+  color: var(--rollover-inverse-text);
+}
+.rollover-execute > div {
+  display: grid;
+  align-self: center;
+  gap: 5px;
+}
+.rollover-execute > div > span,
+.rollover-execute label > span {
+  color: var(--rollover-inverse-muted);
+}
+.rollover-execute > div strong {
+  font-size: 12px;
+  line-height: 1.45;
+}
+.rollover-execute > div small {
+  color: var(--rollover-inverse-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+.rollover-execute input,
+.rollover-execute textarea {
+  border-color: var(--rollover-inverse-border);
+  background: var(--rollover-inverse-input);
+  color: var(--rollover-inverse-text);
+}
+.rollover-execute textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+.rollover-execute input::placeholder,
+.rollover-execute textarea::placeholder {
+  color: var(--rollover-inverse-muted);
+}
+.rollover-execute button {
+  background: var(--rollover-confirm-bg);
+  color: var(--rollover-confirm-text);
+}
+/* Inverse brand panels stay dark in either theme, including focused controls. */
+.rollover-bulk input:focus,
+.rollover-bulk select:focus,
+.rollover-execute input:focus,
+.rollover-execute textarea:focus {
+  border-color: var(--yellow);
+  background: var(--rollover-inverse-focus);
+  color: var(--rollover-inverse-text);
+}
+.rollover-bulk option {
+  background: var(--theme-input);
+  color: var(--theme-text);
+}

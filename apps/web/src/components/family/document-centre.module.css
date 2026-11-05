@@ -1,0 +1,10 @@
+.documents {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.documents a:focus-visible {
+  outline: 3px solid var(--theme-text);
+  outline-offset: 3px;
+}

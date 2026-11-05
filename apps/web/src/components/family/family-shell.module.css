@@ -1,0 +1,72 @@
+.header:global(.family-topbar) {
+  flex-wrap: wrap;
+  gap: .5rem 1rem;
+  padding-block: .65rem;
+}
+
+.header:global(.family-topbar) :global(.brand) {
+  flex: 1 1 150px;
+  min-width: 0;
+  color: var(--theme-text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 1 auto;
+  max-width: 100%;
+  gap: .5rem;
+  margin-left: auto;
+}
+
+.actions button { min-height: 44px; }
+
+/* Keep in-page destinations below the sticky two-row family navigation. */
+.header ~ :global(main) :global([id^="family-"]) {
+  scroll-margin-top: 10rem;
+}
+
+@media (max-width: 1100px) {
+  .header ~ :global(main) :global([id^="family-"]) {
+    scroll-margin-top: 14rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .header ~ :global(main) :global([id^="family-"]) {
+    scroll-margin-top: 18rem;
+  }
+}
+
+.header:global(.family-topbar) nav {
+  display: flex;
+  order: 4;
+  flex: 1 1 100%;
+  min-width: 0;
+  gap: 1.25rem;
+  overflow-x: auto;
+  padding: .25rem;
+  margin: 0;
+  scrollbar-width: thin;
+}
+
+.header:global(.family-topbar) nav a {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 44px;
+  white-space: nowrap;
+  font-size: .75rem;
+}
+
+.header:global(.family-topbar) nav:focus-visible,
+.header:global(.family-topbar) nav a:focus-visible {
+  outline: 3px solid var(--theme-success-text);
+  outline-offset: -3px;
+}
+
+@media (max-width: 700px) {
+  .header:global(.family-topbar) :global(.family-topbar__trust) { display: none; }
+}

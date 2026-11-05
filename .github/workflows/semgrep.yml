@@ -1,0 +1,27 @@
+name: Static security analysis
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "19 3 * * 2"
+
+permissions:
+  contents: read
+
+jobs:
+  semgrep:
+    name: Semgrep CE scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      # Semgrep CE 1.172.0, pinned to its immutable multi-platform digest.
+      image: semgrep/semgrep@sha256:65dcd4408adda7c183a6b4550cb1e9b19f7f627a6fbb7e0559bd466bedc44d7b
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Scan Java, JavaScript, TypeScript, configuration, and workflow sources
+        run: semgrep scan --config auto --error

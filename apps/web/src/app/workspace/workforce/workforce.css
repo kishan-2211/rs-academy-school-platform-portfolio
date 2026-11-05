@@ -1,0 +1,86 @@
+.workforce-page { display: grid; gap: 1.25rem; color: #142a3f; }
+.workforce-hero { display: flex; align-items: end; justify-content: space-between; gap: 1.5rem; padding: 1.8rem; border: 1px solid #d7e4ea; border-radius: 1.5rem; background: radial-gradient(circle at 92% 10%, #d8f4eb 0, transparent 35%), linear-gradient(135deg, #fff, #f5faf9); box-shadow: 0 18px 55px rgb(25 63 78 / 8%); }
+.workforce-hero > div:first-child { max-width: 54rem; }
+.workforce-hero span, .workforce-panel header span { display: flex; align-items: center; gap: .45rem; color: #147863; font-size: .76rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.workforce-hero span svg { width: 1rem; }
+.workforce-hero h1 { margin: .4rem 0 .6rem; max-width: 46rem; font-size: clamp(1.8rem, 4vw, 3.25rem); line-height: 1.03; letter-spacing: -.045em; }
+.workforce-hero p { margin: 0; max-width: 48rem; color: #577082; line-height: 1.65; }
+.workforce-date { min-width: 12rem; padding: .8rem; border-radius: 1rem; background: rgb(255 255 255 / 80%); }
+.workforce-date label, .workforce-form label, .workforce-toolbar label { display: grid; gap: .35rem; color: #526b7b; font-size: .76rem; font-weight: 750; }
+.workforce-date input, .workforce-form input, .workforce-form select, .workforce-form textarea, .workforce-toolbar input, .workforce-toolbar select, .workforce-roster select, .workforce-roster input { width: 100%; min-height: 2.75rem; padding: .65rem .75rem; border: 1px solid #cbdce3; border-radius: .75rem; color: #142a3f; background: #fff; font: inherit; }
+.workforce-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+.workforce-metrics article { display: grid; gap: .25rem; min-height: 7.2rem; padding: 1rem 1.1rem; border: 1px solid #dae5e9; border-radius: 1.1rem; background: #fff; }
+.workforce-metrics span { color: #6a7e8c; font-size: .78rem; font-weight: 750; }
+.workforce-metrics strong { font-size: 1.8rem; letter-spacing: -.04em; }
+.workforce-metrics small { color: #718793; }
+.workforce-banner { display: flex; justify-content: space-between; gap: 1rem; padding: .85rem 1rem; border-radius: .85rem; font-weight: 700; }
+.workforce-banner.is-error { color: #842c34; background: #fff0f1; }
+.workforce-banner.is-success { color: #16634f; background: #eaf8f3; }
+.workforce-banner button { border: 0; color: inherit; background: transparent; font-size: 1.2rem; cursor: pointer; }
+.workforce-tabs { display: flex; gap: .35rem; overflow-x: auto; padding: .3rem; border: 1px solid #d9e4e9; border-radius: 1rem; background: #f7fafb; }
+.workforce-tabs button { flex: 0 0 auto; padding: .72rem 1rem; border: 0; border-radius: .75rem; color: #506978; background: transparent; font: inherit; font-weight: 750; cursor: pointer; }
+.workforce-tabs button.is-active { color: #fff; background: #126f60; box-shadow: 0 7px 20px rgb(18 111 96 / 20%); }
+.workforce-leave-grid, .workforce-approval-grid, .workforce-setup { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: start; }
+.workforce-panel, .workforce-register { overflow: hidden; border: 1px solid #d9e4e9; border-radius: 1.2rem; background: #fff; box-shadow: 0 12px 35px rgb(31 64 76 / 5%); }
+.workforce-panel > header, .workforce-register > header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.2rem; border-bottom: 1px solid #e4ecef; }
+.workforce-panel header h2, .workforce-register header h2 { margin: .2rem 0 0; font-size: 1.15rem; }
+.workforce-panel header svg { width: 1.2rem; color: #16806a; }
+.workforce-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; padding: 1.1rem 1.2rem; }
+.workforce-form .is-wide, .workforce-form fieldset, .workforce-form > button { grid-column: 1 / -1; }
+.workforce-form textarea { min-height: 6rem; resize: vertical; }
+.workforce-form button, .workforce-toolbar button, .workforce-register footer button, .workforce-list button, .workforce-roster button, .workforce-error button { min-height: 2.7rem; padding: .65rem .9rem; border: 1px solid #116b5b; border-radius: .75rem; color: #fff; background: #126f60; font: inherit; font-weight: 750; cursor: pointer; }
+.workforce-form button:disabled, .workforce-toolbar button:disabled, .workforce-register button:disabled { opacity: .48; cursor: not-allowed; }
+.workforce-form-actions { display: flex; gap: .5rem; }
+.workforce-form-actions button { flex: 1; }
+.workforce-form-actions button.is-secondary, .workforce-config-list button { border-color: #b9cfd6; color: #345664; background: #f5f9fa; }
+.workforce-config-list { display: grid; border-bottom: 1px solid #e4ecef; }
+.workforce-config-list:empty { display: none; }
+.workforce-config-list article { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem 1.2rem; border-bottom: 1px solid #e8eef0; }
+.workforce-config-list article:last-child { border: 0; }
+.workforce-config-list article > div { display: grid; gap: .15rem; }
+.workforce-config-list small { color: #637987; }
+.workforce-config-list button { min-height: 2.3rem; padding: .45rem .75rem; border: 1px solid; border-radius: .7rem; font: inherit; font-weight: 750; cursor: pointer; }
+.workforce-list { display: grid; max-height: 32rem; overflow: auto; }
+.workforce-list article { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.2rem; border-bottom: 1px solid #e8eef0; }
+.workforce-list article:last-child { border: 0; }
+.workforce-list article > div:first-child { display: grid; gap: .22rem; }
+.workforce-list span, .workforce-list small { color: #637987; }
+.workforce-list small { line-height: 1.45; }
+.workforce-list article > div:last-child { display: flex; gap: .4rem; }
+.workforce-list button.is-danger { border-color: #bd525c; color: #9c3039; background: #fff4f4; }
+.workforce-list em, .workforce-register header em, .workforce-roster em { padding: .32rem .55rem; border-radius: 99px; color: #465f6e; background: #edf2f4; font-size: .72rem; font-style: normal; font-weight: 800; white-space: nowrap; }
+[data-state="APPROVED"], [data-state="PRESENT"], [data-state="SUBMITTED"] { color: #12614f !important; background: #e7f6f1 !important; }
+[data-state="REJECTED"], [data-state="ABSENT"] { color: #962f3a !important; background: #ffedef !important; }
+[data-state="LEAVE"], [data-state="HALF_DAY"], [data-state="PENDING"] { color: #7b5517 !important; background: #fff4d8 !important; }
+.workforce-balances { grid-column: 1 / -1; }
+.workforce-balances > article { display: flex; justify-content: space-between; gap: 1rem; padding: .8rem 1.2rem; border-top: 1px solid #e8eef0; }
+.workforce-balances article span { display: grid; }
+.workforce-balances small { color: #6d8390; }
+.workforce-balances strong { font-size: 1.35rem; }
+.workforce-empty { margin: 0; padding: 1.2rem; color: #6b7f8b; }
+.workforce-toolbar { display: flex; align-items: end; gap: .65rem; padding: .8rem; border: 1px solid #d9e4e9; border-radius: 1rem; background: #fff; }
+.workforce-toolbar select { min-width: 15rem; }
+.workforce-register { margin-top: 1rem; }
+.workforce-register header p { margin: .3rem 0 0; color: #657b88; }
+.workforce-roster { display: grid; }
+.workforce-roster article { display: grid; grid-template-columns: minmax(11rem, 1fr) 10rem 8.5rem; align-items: center; gap: .7rem; min-height: 4.3rem; padding: .65rem 1.1rem; border-bottom: 1px solid #e8eef0; }
+.workforce-roster article > div { display: grid; gap: .15rem; }
+.workforce-roster small { color: #6a818f; }
+.workforce-roster button { justify-self: end; min-height: 2.3rem; padding: .45rem .65rem; color: #176c5d; background: #eff8f5; }
+.workforce-register footer { display: flex; justify-content: end; gap: .55rem; padding: .9rem 1.1rem; background: #f7fafb; }
+.workforce-empty-card { display: grid; place-items: center; gap: .5rem; min-height: 18rem; margin-top: 1rem; padding: 2rem; border: 1px dashed #c8d9df; border-radius: 1.2rem; color: #607582; text-align: center; }
+.workforce-empty-card svg { width: 2rem; color: #1b7d69; }
+.workforce-empty-card h2, .workforce-empty-card p { margin: 0; }
+.workforce-setup { grid-template-columns: 1.2fr .8fr; }
+.workforce-setup > section:last-child { grid-column: 1 / -1; }
+.workforce-form fieldset { display: grid; gap: .45rem; padding: .75rem; border: 1px solid #d8e4e8; border-radius: .8rem; }
+.workforce-state { display: grid !important; grid-template-columns: auto 1fr 6rem; align-items: center; }
+.workforce-state input[type="checkbox"], .workforce-check input { width: 1rem; min-height: 1rem; }
+.workforce-check { display: flex !important; align-items: center; gap: .45rem !important; }
+.workforce-loading, .workforce-error { display: grid; place-items: center; gap: .7rem; min-height: 24rem; text-align: center; }
+.workforce-loading span { width: 2rem; height: 2rem; border: 3px solid #d5e5e1; border-top-color: #147762; border-radius: 50%; animation: workforce-spin .8s linear infinite; }
+@keyframes workforce-spin { to { transform: rotate(360deg); } }
+@media (max-width: 880px) { .workforce-hero { align-items: stretch; flex-direction: column; } .workforce-date { min-width: 0; } .workforce-leave-grid, .workforce-approval-grid, .workforce-setup { grid-template-columns: 1fr; } .workforce-balances, .workforce-setup > section:last-child { grid-column: auto; } .workforce-toolbar { align-items: stretch; flex-direction: column; } .workforce-toolbar select { min-width: 0; } }
+@media (max-width: 620px) { .workforce-hero { padding: 1.2rem; border-radius: 1.1rem; } .workforce-metrics { grid-template-columns: 1fr; } .workforce-metrics article { min-height: 0; } .workforce-form { grid-template-columns: 1fr; } .workforce-form > * { grid-column: auto !important; } .workforce-form-actions, .workforce-config-list article, .workforce-list article { align-items: stretch; flex-direction: column; } .workforce-roster article { grid-template-columns: 1fr 1fr; } .workforce-roster article > div { grid-column: 1 / -1; } .workforce-roster button { justify-self: stretch; } .workforce-register footer { flex-direction: column; } }
+@media (prefers-reduced-motion: reduce) { .workforce-loading span { animation: none; } }
+.workforce-page :focus-visible { outline: 3px solid #efb733; outline-offset: 2px; }

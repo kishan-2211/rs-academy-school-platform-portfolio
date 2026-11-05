@@ -1,0 +1,442 @@
+.rollover-workspace {
+  --rollover-inverse-text: #fffaf0;
+  --rollover-inverse-muted: #c7d8d2;
+  --rollover-inverse-input: #234649;
+  --rollover-inverse-focus: #2b5353;
+  --rollover-inverse-border: #93b4a9;
+  --rollover-bulk-bg: #183b3d;
+  --rollover-preview-bg: #122f32;
+  --rollover-execute-bg: #17383b;
+  --rollover-action-bg: #d9f5be;
+  --rollover-action-text: #173436;
+  --rollover-confirm-bg: #f1c979;
+  --rollover-confirm-text: #392d17;
+  min-width: 0;
+  color: var(--theme-text);
+}
+.rollover-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 36px;
+  overflow: hidden;
+  padding: clamp(32px, 5vw, 62px);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 78% 20%, rgba(244, 207, 135, 0.2), transparent 30%),
+    linear-gradient(135deg, #12282e 0%, #173f42 52%, #275c53 100%);
+  color: #fff;
+}
+.rollover-hero:after {
+  position: absolute;
+  right: -90px;
+  bottom: -150px;
+  width: 330px;
+  height: 330px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 38px rgba(255, 255, 255, 0.03),
+    0 0 0 80px rgba(255, 255, 255, 0.02);
+  content: "";
+}
+.rollover-hero > div,
+.rollover-hero aside {
+  position: relative;
+  z-index: 1;
+}
+.rollover-hero > div > span {
+  display: block;
+  color: #d3f0ca;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.rollover-setup > header span,
+.rollover-planner > header > div > span,
+.rollover-review > header span,
+.rollover-history > header span {
+  display: block;
+  color: var(--theme-success-text);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.rollover-hero h1 {
+  max-width: 830px;
+  margin: 13px 0 0;
+  font-family: var(--font-serif);
+  font-size: clamp(42px, 5vw, 70px);
+  font-weight: 440;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+.rollover-hero p {
+  max-width: 760px;
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.rollover-hero aside {
+  align-self: center;
+  display: grid;
+  gap: 7px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  background: rgba(7, 27, 29, 0.32);
+  backdrop-filter: blur(14px);
+}
+.rollover-hero aside svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 12px;
+  color: #e9d39e;
+}
+.rollover-hero aside strong {
+  font-family: var(--font-serif);
+  font-size: 38px;
+  font-weight: 500;
+}
+.rollover-hero aside span {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+}
+.rollover-trust {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  margin: 16px 0;
+  border: 1px solid var(--theme-border);
+  border-radius: 15px;
+  background: var(--theme-bg-soft);
+}
+.rollover-trust span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 11px 14px;
+  background: var(--theme-bg-soft);
+  color: var(--theme-muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+.rollover-trust i {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--theme-success-border);
+  border-radius: 50%;
+  background: var(--theme-success-text);
+}
+.rollover-banner {
+  margin: 0 0 16px;
+  padding: 14px 17px;
+  border: 1px solid var(--theme-success-border);
+  border-radius: 13px;
+  background: var(--theme-success-bg);
+  color: var(--theme-success-text);
+  font-size: 12px;
+}
+.rollover-banner.is-error {
+  border-color: var(--theme-error-border);
+  background: var(--theme-error-bg);
+  color: var(--theme-error-text);
+}
+.rollover-complete {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--theme-success-border);
+  border-radius: 16px;
+  background: var(--theme-success-bg);
+}
+.rollover-complete svg {
+  width: 28px;
+  height: 28px;
+  color: var(--theme-success-text);
+}
+.rollover-complete div {
+  display: grid;
+  gap: 3px;
+}
+.rollover-complete span {
+  color: var(--theme-success-text);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rollover-complete strong {
+  font-size: 15px;
+}
+.rollover-complete small {
+  color: var(--theme-success-text);
+  font-size: 10px;
+}
+
+.rollover-setup,
+.rollover-planner,
+.rollover-review,
+.rollover-history {
+  margin-top: 16px;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--theme-border);
+  border-radius: 22px;
+  background: var(--theme-card);
+  box-shadow: var(--theme-shadow-soft);
+}
+.rollover-setup > header,
+.rollover-planner > header,
+.rollover-review > header,
+.rollover-history > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.rollover-setup h2,
+.rollover-planner h2,
+.rollover-review h2,
+.rollover-history h2 {
+  margin: 7px 0 0;
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 470;
+  letter-spacing: -0.035em;
+}
+.rollover-setup > header em,
+.rollover-review > header em {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: var(--theme-warning-bg);
+  color: var(--theme-warning-text);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.rollover-setup > header em[data-state="OPEN"] {
+  background: var(--theme-success-bg);
+  color: var(--theme-success-text);
+}
+.rollover-setup__grid,
+.rollover-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 11px;
+}
+.rollover-workspace label {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  min-width: 0;
+}
+.rollover-workspace label > span,
+.rollover-bulk > div > span,
+.rollover-execute > div > span {
+  color: var(--theme-muted);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.rollover-workspace input,
+.rollover-workspace select,
+.rollover-workspace textarea {
+  width: 100%;
+  min-height: 43px;
+  padding: 9px 11px;
+  border: 1px solid var(--theme-muted);
+  border-radius: 10px;
+  outline: 0;
+  background: var(--theme-input);
+  color: var(--theme-text);
+  font: inherit;
+  font-size: 11px;
+}
+.rollover-workspace input:focus,
+.rollover-workspace select:focus,
+.rollover-workspace textarea:focus {
+  border-color: var(--theme-text-soft);
+  background: var(--theme-input);
+  box-shadow: var(--theme-shadow-soft);
+}
+.rollover-workspace input:disabled,
+.rollover-workspace select:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.rollover-source-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 18px;
+}
+.rollover-source-summary > div {
+  display: grid;
+  gap: 5px;
+  padding: 17px;
+  border: 1px solid var(--theme-border);
+  border-radius: 13px;
+  background: var(--theme-bg-soft);
+}
+.rollover-source-summary span {
+  color: var(--theme-muted);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.rollover-source-summary strong {
+  font-size: 13px;
+}
+.rollover-source-summary small {
+  color: var(--theme-muted);
+  font-size: 10px;
+}
+.rollover-copy-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 19px 0 0;
+  padding: 17px;
+  border: 1px solid var(--theme-border);
+  border-radius: 14px;
+  background: var(--theme-bg-soft);
+}
+.rollover-copy-options legend {
+  padding: 0 7px;
+  color: var(--theme-muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+.rollover-copy-options label {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  padding: 10px;
+  border-radius: 9px;
+  background: var(--theme-card);
+}
+.rollover-copy-options input {
+  width: 17px;
+  min-height: 17px;
+  accent-color: var(--theme-success-text);
+}
+.rollover-copy-options label > span {
+  text-transform: none;
+}
+
+.rollover-planner > header > div > p {
+  max-width: 720px;
+  margin: 11px 0 0;
+  color: var(--theme-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.rollover-progress {
+  display: grid;
+  flex: 0 0 190px;
+  gap: 6px;
+  padding: 15px;
+  border: 1px solid var(--theme-border);
+  border-radius: 14px;
+  background: var(--theme-bg-soft);
+}
+.rollover-progress strong {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 500;
+}
+.rollover-progress span {
+  color: var(--theme-muted);
+  font-size: 9px;
+}
+.rollover-progress > div {
+  overflow: hidden;
+  height: 7px;
+  border-radius: 10px;
+  background: var(--theme-neutral-border);
+}
+.rollover-progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--theme-success-text), var(--mint));
+  transition: width 0.3s ease;
+}
+.rollover-filters {
+  margin-bottom: 13px;
+  padding: 16px;
+  border: 1px solid var(--theme-border);
+  border-radius: 14px;
+  background: var(--theme-bg-soft);
+}
+.rollover-bulk {
+  display: grid;
+  grid-template-columns:
+    minmax(180px, 0.8fr) repeat(2, minmax(140px, 0.55fr)) minmax(220px, 1.1fr)
+    auto;
+  align-items: end;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 17px;
+  border-radius: 15px;
+  background: var(--rollover-bulk-bg);
+  color: var(--rollover-inverse-text);
+}
+.rollover-bulk > div {
+  display: grid;
+  align-self: center;
+  gap: 5px;
+}
+.rollover-bulk > div > span,
+.rollover-bulk label > span {
+  color: var(--rollover-inverse-muted);
+}
+.rollover-bulk > div strong {
+  font-size: 12px;
+}
+.rollover-bulk input,
+.rollover-bulk select {
+  border-color: var(--rollover-inverse-border);
+  background: var(--rollover-inverse-input);
+  color: var(--rollover-inverse-text);
+}
+.rollover-bulk input::placeholder {
+  color: var(--rollover-inverse-muted);
+}
+.rollover-bulk button,
+.rollover-preview-action button,
+.rollover-execute button,
+.rollover-pagination button {
+  min-height: 43px;
+  padding: 10px 15px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--rollover-action-bg);
+  color: var(--rollover-action-text);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 850;
+  cursor: pointer;
+}
+.rollover-bulk button:disabled,
+.rollover-preview-action button:disabled,
+.rollover-execute button:disabled,
+.rollover-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+.rollover-bulk__reason {
+  min-width: 0;
+}

@@ -1,0 +1,372 @@
+name: Continuous integration
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main, "feat/**", "fix/**", "chore/**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Web checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Set up Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24.22.1
+          package-manager-cache: false
+      - name: Enable pinned pnpm
+        run: corepack enable && corepack prepare pnpm@11.19.0 --activate
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Validate OpenAPI structure and unique mapping keys
+        run: pnpm check:openapi
+      - name: Verify intended production-domain boundaries without contacting DNS
+        run: node --test scripts/production-domain-config.test.mjs
+      - name: Verify read-only preview-state and private-summary guards
+        shell: pwsh
+        run: ./scripts/dev/test-browser-preview-preflight.ps1
+      - name: Verify real no-start Compose notification-setting interpolation
+        shell: pwsh
+        run: |
+          ./scripts/test-compose-notification-settings.ps1
+          ./scripts/verify-compose-notification-settings.ps1
+      - name: Type-check
+        run: pnpm --filter @educore/web check
+      - name: Lint
+        run: pnpm --filter @educore/web lint
+      - name: Web unit tests
+        run: pnpm --filter @educore/web test
+      - name: Production build
+        run: pnpm --filter @educore/web build
+      - name: Verify real standalone public and stylesheet assets
+        run: node scripts/verify-web-standalone-assets.mjs
+      - name: Build and run the actual non-root web image and verify private context exclusions
+        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+        shell: pwsh
+        run: |
+          ./scripts/test-runtime-image-security.ps1
+          ./scripts/test-runtime-package-security.ps1
+          ./scripts/test-runtime-dependency-exposure.ps1
+          ./scripts/test-minimatch-dependency-exposure.ps1
+          ./scripts/verify-web-runtime-image.ps1
+      - name: Reject missing or unsafe actual web runtime image findings
+        if: (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && !cancelled()
+        shell: pwsh
+        run: ./scripts/assert-runtime-image-security.ps1 -Service web
+      - name: Preserve sanitized web image security evidence, never image archives or raw configuration
+        if: (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: web-runtime-image-security-report
+          path: |
+            .build-tmp/image-security-web-report.json
+            .build-tmp/dependency-exposure-web.json
+            .build-tmp/dependency-minimatch-exposure-web.json
+            .build-tmp/dependency-minimatch-findings-web.json
+          if-no-files-found: error
+          retention-days: 14
+
+  api:
+    name: API and PostgreSQL integration checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    services:
+      postgres:
+        image: postgres:18.4-alpine
+        env:
+          POSTGRES_DB: educore_integration
+          POSTGRES_USER: educore_integration
+          POSTGRES_PASSWORD: educore-integration-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U educore_integration -d educore_integration"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 30
+    env:
+      TEST_DATABASE_URL: jdbc:postgresql://127.0.0.1:5432/educore_integration
+      TEST_DATABASE_USER: educore_integration
+      TEST_DATABASE_PASSWORD: educore-integration-only
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Set up Java
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Compile, run unit tests, apply every migration, and run PostgreSQL integration tests
+        run: mvn -B -ntp -f apps/api/pom.xml verify
+      - name: Prove that the PostgreSQL gate executed without skips
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: ./scripts/assert-postgres-integration-report.ps1
+      - name: Prove real production-profile API and non-owner PostgreSQL runtime checks
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          ./scripts/test-production-runtime-report.ps1
+          ./scripts/assert-production-runtime-report.ps1
+      - name: Prove real first-administrator atomicity, scope, retry and owner/runtime separation
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          ./scripts/test-first-administrator-report.ps1
+          ./scripts/assert-first-administrator-report.ps1
+      - name: Prove real gateway reservation, late-capture, isolation and retry foundation checks
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          ./scripts/test-online-payment-foundation-report.ps1
+          ./scripts/assert-online-payment-foundation-report.ps1
+      - name: Prove real scoped staff invitation, account linkage, retry and MFA boundaries
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          ./scripts/test-staff-account-invitation-report.ps1
+          ./scripts/assert-staff-account-invitation-report.ps1
+      - name: Prove real gateway worker, private V072 links, V071 history and exact payment times
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          ./scripts/test-gateway-work-report.ps1
+          ./scripts/assert-gateway-work-report.ps1
+      - name: Prove real immutable settlement provenance, minimal facts, continuation and scope checks
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          ./scripts/test-gateway-settlement-report.ps1
+          ./scripts/assert-gateway-settlement-report.ps1
+      - name: Prove real legacy Cash/UPI receipt preservation across the V070 upgrade
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          ./scripts/test-manual-collection-migration-report.ps1
+          ./scripts/assert-manual-collection-migration-report.ps1
+      - name: Execute the actual packaged migration entry point without starting the API
+        shell: pwsh
+        run: ./scripts/verify-packaged-database-migration.ps1
+      - name: Verify actual packaged first-administrator entry point refuses noninteractive provisioning
+        shell: pwsh
+        run: ./scripts/verify-packaged-first-administrator.ps1
+      - name: Build and start the real non-root API image against the isolated runtime database
+        shell: pwsh
+        run: |
+          ./scripts/test-runtime-image-security.ps1
+          ./scripts/test-runtime-package-security.ps1
+          ./scripts/test-runtime-dependency-exposure.ps1
+          ./scripts/test-minimatch-dependency-exposure.ps1
+          ./scripts/verify-api-runtime-image.ps1
+      - name: Reject unsafe, incomplete or stale restore inputs/evidence
+        shell: pwsh
+        run: ./scripts/test-database-restore-guards.ps1
+      - name: Guard and verify real PostgreSQL named-volume persistence without touching the integration service
+        shell: pwsh
+        run: |
+          $started = [datetime]::UtcNow
+          ./scripts/test-postgres-volume-guards.ps1
+          ./scripts/verify-postgres-volume.ps1
+          ./scripts/assert-postgres-volume-report.ps1 -NotBefore $started
+      - name: Preserve sanitized named-volume persistence evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: synthetic-postgres-volume-report
+          path: apps/api/target/postgres-volume-report.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Restore the real migrated synthetic database and verify data/security
+        shell: pwsh
+        run: |
+          $started = [datetime]::UtcNow
+          $env:EDUCORE_RESTORE_DRILL_USER = $env:TEST_DATABASE_USER
+          $env:EDUCORE_RESTORE_DRILL_PASSWORD = $env:TEST_DATABASE_PASSWORD
+          try {
+            ./scripts/verify-database-restore.ps1 -SourceDatabase educore_integration -SyntheticSourceConfirmed -DockerContainer '${{ job.services.postgres.id }}'
+            ./scripts/assert-database-restore-report.ps1 -NotBefore $started
+          } finally {
+            Remove-Item Env:EDUCORE_RESTORE_DRILL_USER, Env:EDUCORE_RESTORE_DRILL_PASSWORD -ErrorAction SilentlyContinue
+          }
+      - name: Preserve sanitized database restore evidence, never dumps or credentials
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: synthetic-database-restore-report
+          path: apps/api/target/restore-drill-report.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Preserve PostgreSQL integration evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: postgres-integration-reports
+          path: apps/api/target/failsafe-reports/
+          if-no-files-found: error
+          retention-days: 14
+      # Assess the already-built image once; enforce severity after the independent
+      # database/recovery gates so advisory findings do not hide their evidence.
+      - name: Reject missing or unsafe actual API runtime image findings
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: ./scripts/assert-runtime-image-security.ps1 -Service api
+      - name: Preserve sanitized API image security evidence, never image archives or raw configuration
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: api-runtime-image-security-report
+          path: |
+            .build-tmp/image-security-api-report.json
+            .build-tmp/dependency-exposure-api.json
+            .build-tmp/dependency-minimatch-exposure-api.json
+            .build-tmp/dependency-minimatch-findings-api.json
+          if-no-files-found: error
+          retention-days: 14
+
+  private-files:
+    name: Real private storage, malware-scanner and paired recovery checks
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Check scanner freshness guards and reject incomplete integration evidence
+        shell: pwsh
+        run: |
+          ./scripts/test-clamav-freshness.ps1
+          ./scripts/test-clamav-freshness-loopback.ps1
+          ./scripts/test-clamav-update.ps1
+          ./scripts/test-private-files-integration-report.ps1
+          ./scripts/test-paired-recovery-report.ps1
+      - name: Set up Java
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Verify real scan, private bytes, limited credentials and PostgreSQL/object/key/API recovery
+        shell: pwsh
+        run: ./scripts/verify-private-files-integration.ps1 -PairedRecovery
+      - name: Prove that every real private-file scenario executed without skips
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          ./scripts/assert-private-files-integration-report.ps1
+          ./scripts/assert-paired-recovery-report.ps1
+      - name: Preserve real private-file evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: private-files-integration-reports
+          path: |
+            apps/api/target/failsafe-reports/*PrivateFilesIT.xml
+            apps/api/target/failsafe-reports/*OfficialDocumentRecoveryIT.xml
+            apps/api/target/clamav-freshness-report.json
+          if-no-files-found: error
+          retention-days: 14
+
+  dependency-review:
+    name: Dependency review
+    # GitHub's dependency-review action requires a paid security licence for
+    # private repositories. Keep it enabled automatically if this repository
+    # becomes public; the no-cost OSV gate below covers both current ecosystems.
+    if: github.event_name == 'pull_request' && github.event.repository.private == false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@3c4e3dcb1aa7874d2c16be7d79418e9b7efd6261 # v4.8.2
+        with:
+          fail-on-severity: high
+
+  dependency-audit:
+    name: Open-source dependency audit
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    permissions:
+      actions: read
+      contents: read
+      # The reusable workflow declares this permission even when SARIF upload is
+      # disabled. Granting it satisfies the called workflow's permission contract.
+      security-events: write
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@8deb546fdb875b9996d27d4950be7312dac076a1 # v2.5.0
+    with:
+      scan-args: |-
+        --recursive
+        ./
+      upload-sarif: false
+      # Keep every finding/SARIF visible. The separate fail-closed production gate
+      # below is mandatory; only the owner-reviewed, provably unshipped braces
+      # lint finding may be classified, never a runtime or unknown finding.
+      fail-on-vuln: false
+
+  production-dependency-security:
+    name: Production dependency and image security policy
+    if: ${{ !cancelled() && (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+    needs: [web, api, private-files, dependency-audit]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Reject failed/incomplete prerequisite gates
+        env:
+          WEB_RESULT: ${{ needs.web.result }}
+          API_RESULT: ${{ needs.api.result }}
+          PRIVATE_RESULT: ${{ needs.private-files.result }}
+          AUDIT_RESULT: ${{ needs.dependency-audit.result }}
+        shell: pwsh
+        run: |
+          foreach ($result in @($env:WEB_RESULT,$env:API_RESULT,$env:PRIVATE_RESULT,$env:AUDIT_RESULT)) {
+            if ($result -cne 'success') { throw 'A prerequisite did not pass; no production security policy pass inferred.' }
+          }
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Set up existing pinned Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24.22.1
+          package-manager-cache: false
+      - name: Install unchanged locked dependency graph
+        run: |
+          corepack enable && corepack prepare pnpm@11.19.0 --activate
+          pnpm install --frozen-lockfile
+      - name: Read this run's web image evidence
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1, same official pin as OSV workflow
+        with:
+          name: web-runtime-image-security-report
+          path: .build-tmp/dependency-policy-evidence/web
+      - name: Read this run's API image evidence
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: api-runtime-image-security-report
+          path: .build-tmp/dependency-policy-evidence/api
+      - name: Read full unsuppressed dependency audit
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: OSV Scanner SARIF file
+          path: .build-tmp/dependency-policy-evidence/audit
+      - name: Enforce exact scope, real-image absence and complete current audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          ./scripts/test-production-dependency-policy.ps1
+          ./scripts/assert-production-dependency-policy.ps1 -EvidenceDirectory .build-tmp/dependency-policy-evidence

@@ -1,0 +1,84 @@
+.language-selector {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 2px;
+  border: 1px solid var(--theme-border);
+  border-radius: 999px;
+  background: var(--theme-bg-soft);
+  color: var(--theme-text);
+}
+.language-selector button,
+.language-onboarding button,
+.language-save-error button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: .4rem .65rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.language-selector button[aria-pressed="true"],
+.language-onboarding button[aria-pressed="true"] {
+  color: var(--theme-success-text);
+  background: var(--theme-success-bg);
+  border-color: currentColor;
+}
+.language-selector button:focus-visible,
+.language-onboarding button:focus-visible,
+.language-save-error button:focus-visible {
+  outline: 3px solid var(--theme-text);
+  outline-offset: 2px;
+}
+.language-onboarding,
+.language-save-error {
+  position: fixed;
+  z-index: 110;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(38rem, calc(100% - 2rem));
+  max-height: 45dvh;
+  overflow-y: auto;
+  padding: 1rem;
+  border: 1px solid var(--theme-border);
+  border-radius: 1rem;
+  background: var(--theme-bg);
+  color: var(--theme-text);
+  box-shadow: var(--theme-shadow-soft);
+}
+.language-onboarding h2 { font-family: inherit; font-size: 1rem; line-height: 1.6; margin: 0 0 .6rem; }
+.language-onboarding__actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.language-onboarding button, .language-save-error button { border-color: var(--theme-border); }
+.language-save-status { position: fixed; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.language-save-error { bottom: auto; top: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+html:lang(hi) body { font-family: "Nirmala UI", "Kohinoor Devanagari", Mangal, var(--font-sans), sans-serif; }
+html:lang(hi) :is(h1,h2,h3,h4,button,input,select,textarea) { font-family: inherit; }
+html:lang(hi) :is(button, label, th, .button) { line-height: 1.65; }
+html:lang(hi) :is(.eyebrow, .workspace-nav__group > span) { letter-spacing: normal; }
+/* Devanagari vowel marks need more leading than the tight Latin display face.
+   Keep this local to public display headings; dense operational screens are unchanged. */
+html:lang(hi) :is(.hero h1, .intro__statement h2, .day__heading h2, .connection__copy h2, .learning__heading h2, .invitation__inner h2) {
+  line-height: 1.25;
+  letter-spacing: normal;
+}
+html:lang(hi) .orbit__core > strong { line-height: 1.2; letter-spacing: normal; }
+html:lang(hi) :is(.inner-hero h1, .inner-section-card h2, .inner-next h2) {
+  line-height: 1.25;
+  letter-spacing: normal;
+}
+.workspace-topbar__actions { flex-wrap: wrap; }
+@media (max-width: 700px) {
+  .site-header__inner { flex-wrap: wrap; height: auto; min-height: 76px; padding-block: .6rem; }
+  .site-header__actions { flex-wrap: wrap; margin-left: auto; }
+  .site-header__inner > .brand { flex: 1 1 auto; }
+  .workspace-topbar { height: auto; min-height: 72px; padding-block: .6rem; }
+  .workspace-topbar__actions { gap: .4rem; }
+  .family-topbar .language-selector { flex: 0 0 auto; }
+}

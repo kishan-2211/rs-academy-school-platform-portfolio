@@ -1,0 +1,25 @@
+.root { box-sizing: border-box; grid-column: 1 / -1; min-width: 0; width: 100%; color: var(--theme-text); font-size: 12px; line-height: 1.6; }
+.root button, .root a { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 13px; border: 1px solid var(--theme-border); border-radius: 10px; color: var(--theme-text); background: var(--theme-surface); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+.root :is(button, a, input, select):focus-visible { outline: 3px solid var(--theme-text); outline-offset: 3px; }
+.root button:disabled { opacity: .55; cursor: not-allowed; }
+.panel { display: grid; gap: 12px; min-width: 0; padding-top: 12px; overflow-wrap: anywhere; }
+.root .panel p { margin: 0; color: var(--theme-muted); font-size: 12px; line-height: 1.6; }
+.root .panel .error { padding: 10px; border: 1px solid var(--theme-error-border); border-radius: 10px; color: var(--theme-error-text); background: var(--theme-error-bg); }
+.familyReceiptRow { flex-wrap: wrap; }
+.root { flex: 1 1 100%; }
+.document { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--theme-border); border-radius: 12px; background: var(--theme-surface); }
+.root .document strong { flex: 1 1 150px; font-size: 12px; }
+.root .document span { padding: 5px 9px; border-radius: 8px; color: var(--theme-muted); background: var(--theme-card); font-size: 12px; letter-spacing: normal; }
+.document span[data-status="ISSUED"] { color: var(--theme-success-text); background: var(--theme-success-bg); }
+.document span[data-status="PENDING_APPROVAL"] { color: var(--theme-warning-text); background: var(--theme-warning-bg); }
+.document span:is([data-status="CANCELLED"], [data-status="REJECTED"]) { color: var(--theme-error-text); background: var(--theme-error-bg); }
+.root .document small { flex-basis: 100%; color: var(--theme-muted); font-size: 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.root .panel form { display: grid; gap: 12px; width: 100%; margin: 0; }
+.panel fieldset { display: grid; min-width: 0; gap: 8px; margin: 0; padding: 12px; border: 1px solid var(--theme-border); border-radius: 12px; }
+.panel legend { font-weight: 750; }
+.root .panel input, .root .panel select { box-sizing: border-box; min-width: 0; width: 100%; min-height: 44px; padding: 10px; border: 1px solid var(--theme-border); border-radius: 10px; color: var(--theme-text); background: var(--theme-input); font: inherit; }
+.root .panel form button { min-height: 44px; color: var(--theme-text); background: var(--theme-surface); font: inherit; font-weight: 700; }
+.panel form > button { justify-self: start; }
+@media (max-width: 600px) { .document { display: grid; grid-template-columns: minmax(0, 1fr); } .document button, .actions button { width: 100%; } .actions { display: grid; } }
+@media (prefers-reduced-motion: reduce) { .root *, .root *::before, .root *::after { animation: none !important; transition: none !important; } }

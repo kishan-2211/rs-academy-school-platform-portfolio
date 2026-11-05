@@ -1,0 +1,37 @@
+.root { box-sizing: border-box; min-width: 0; color: var(--theme-text); line-height: 1.6; padding: 22px; border: 1px solid var(--theme-border); border-radius: 18px; background: var(--theme-card); margin-block: 18px; overflow-wrap: anywhere; }
+.root *, .root *::before, .root *::after { box-sizing: border-box; }
+.root h1, .root h3, .root h4, .root p { margin: 0 0 12px; }
+.root h3 { font-size: 20px; }
+.root h4 { font-size: 16px; }
+.root p, .root small { color: var(--theme-muted); }
+.root :is(button, a) { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; gap: 6px; padding: 10px 14px; border: 1px solid var(--theme-border); border-radius: 10px; color: var(--theme-text); background: var(--theme-surface); text-decoration: none; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.root :is(input, button, a):focus-visible { outline: 3px solid var(--theme-text); outline-offset: 3px; }
+.root button:disabled, .root button[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
+.root input { width: 100%; min-width: 0; min-height: 44px; padding: 10px; border: 1px solid var(--theme-border); border-radius: 10px; color: var(--theme-text); background: var(--theme-input); font: inherit; }
+.root input[type="checkbox"] { width: 22px; height: 22px; min-height: 22px; accent-color: var(--theme-text); flex-shrink: 0; }
+.root fieldset { min-width: 0; padding: 16px; margin: 0 0 16px; border: 1px solid var(--theme-border); border-radius: 12px; }
+.root legend { padding-inline: 6px; font-weight: 700; }
+.root label { display: block; font-weight: 650; margin-block: 8px; }
+.choice { display: grid; grid-template-columns: minmax(0, 1fr) minmax(140px, 190px); gap: 14px; align-items: center; padding-block: 12px; border-bottom: 1px solid var(--theme-border); }
+.choice:last-child { border-bottom: 0; }
+.root .checkLabel { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.choice small { display: block; }
+.phone { max-width: 360px; }
+.total { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-block: 16px; font-size: 18px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-block: 12px; }
+.root .primary { background: var(--theme-action-bg); color: var(--theme-action-text); border-color: var(--theme-action-bg); }
+.root .error { padding: 12px; color: var(--theme-error-text); background: var(--theme-error-bg); border: 1px solid var(--theme-error-border); border-radius: 10px; }
+.root .warning { padding: 12px; color: var(--theme-warning-text); background: var(--theme-warning-bg); border: 1px solid var(--theme-warning-border); border-radius: 10px; }
+.payment { margin-top: 14px; padding: 18px; border: 1px solid var(--theme-border); border-radius: 14px; background: var(--theme-surface); }
+.summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.summary > strong { font-size: 23px; }
+.badge { border-radius: 8px; padding: 5px 9px; color: var(--theme-text); background: var(--theme-card); font-size: 12px; font-weight: 700; }
+.payment[data-status="PAID"] .badge { color: var(--theme-success-text); background: var(--theme-success-bg); }
+.payment:is([data-status="PENDING"], [data-status="REVIEW_REQUIRED"], [data-status="EXPIRED"]) .badge { color: var(--theme-warning-text); background: var(--theme-warning-bg); }
+.breakdown { list-style: none; padding: 0; margin: 12px 0; }
+.breakdown li { display: flex; justify-content: space-between; gap: 14px; padding-block: 7px; border-bottom: 1px solid var(--theme-border); }
+.receipt { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--theme-border); }
+.history { margin-top: 26px; }
+.statusPage { max-width: 900px; margin: 28px auto; }
+@media (max-width: 640px) { .root { padding: 16px; } .choice { grid-template-columns: minmax(0, 1fr); gap: 0; } .actions { display: grid; grid-template-columns: minmax(0, 1fr); } .actions > * { width: 100%; } .statusPage { margin: 16px; } }
+@media (prefers-reduced-motion: reduce) { .root *, .root *::before, .root *::after { animation: none !important; transition: none !important; } }

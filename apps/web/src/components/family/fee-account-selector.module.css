@@ -1,0 +1,14 @@
+.root { min-width: 0; padding: 18px; margin-block: 18px; border: 1px solid var(--theme-border); border-radius: 14px; background: var(--theme-card); color: var(--theme-text); overflow-wrap: anywhere; }
+.root h3 { margin: 0 0 10px; }
+.root p { color: var(--theme-muted); line-height: 1.6; }
+.root label { display: block; font-weight: 700; margin-block: 12px 8px; }
+.root select, .root button { box-sizing: border-box; min-height: 44px; max-width: 100%; padding: 10px 12px; border: 1px solid var(--theme-border); border-radius: 10px; background: var(--theme-input); color: var(--theme-text); font: inherit; }
+.root select { width: 100%; }
+.root button { cursor: pointer; font-weight: 650; }
+.root :is(select, button):focus-visible { outline: 3px solid var(--theme-text); outline-offset: 3px; }
+.root :disabled, .root [aria-disabled="true"] { opacity: .6; cursor: not-allowed; }
+.root .error { color: var(--theme-error-text); background: var(--theme-error-bg); border: 1px solid var(--theme-error-border); padding: 12px; border-radius: 10px; }
+.root .warning { color: var(--theme-warning-text); background: var(--theme-warning-bg); border: 1px solid var(--theme-warning-border); padding: 12px; border-radius: 10px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+@media (max-width: 640px) { .root { padding: 14px; } .actions { display: grid; grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .root *, .root *::before, .root *::after { transition: none !important; animation: none !important; } }

@@ -1,0 +1,205 @@
+name: educore
+
+services:
+  postgres:
+    image: postgres:18.4-alpine
+    environment:
+      PGDATA: /var/lib/postgresql/18/docker
+      POSTGRES_DB: ${POSTGRES_DB:-educore}
+      POSTGRES_USER: ${POSTGRES_USER:-educore}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      # PostgreSQL 18's versioned PGDATA must live inside this named mount.
+      # Existing legacy layouts require an approved restore/migration, never reset.
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  redis:
+    image: redis:8.2-alpine
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env}"]
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $${REDIS_PASSWORD} ping | grep PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  object-storage:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Set MINIO_ROOT_USER in .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - object-data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  object-storage-init:
+    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
+    depends_on:
+      object-storage:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Set MINIO_ROOT_USER in .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in .env}
+      MINIO_BUCKET: ${MINIO_BUCKET:-educore-private}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        mc alias set local http://object-storage:9000 "$${MINIO_ROOT_USER}" "$${MINIO_ROOT_PASSWORD}" &&
+        mc mb --ignore-existing "local/$${MINIO_BUCKET}" &&
+        mc anonymous set none "local/$${MINIO_BUCKET}"
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+
+  malware-scanner:
+    image: clamav/clamav:1.4_base
+    volumes:
+      - clamav-data:/var/lib/clamav
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  mailpit:
+    image: axllent/mailpit:v1.27
+    environment:
+      MP_MAX_MESSAGES: 1000
+      MP_DATABASE: /data/mailpit.db
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+    volumes:
+      - mail-data:/data
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  api:
+    profiles: ["application"]
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-educore}
+      DATABASE_USER: ${DATABASE_USER:?Set the dedicated runtime DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:?Set the dedicated runtime DATABASE_PASSWORD}
+      APP_ENCRYPTION_KEY: ${APP_ENCRYPTION_KEY:?Set APP_ENCRYPTION_KEY securely}
+      APP_PUBLIC_ORGANISATION_ID: ${APP_PUBLIC_ORGANISATION_ID:?Set the confirmed public organisation UUID}
+      APP_PUBLIC_SCHOOL_ID: ${APP_PUBLIC_SCHOOL_ID:?Set the confirmed public school UUID}
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://localhost:3000}
+      APP_ALLOWED_ORIGINS: ${APP_ALLOWED_ORIGINS:-http://localhost:3000}
+      APP_COOKIE_SECURE: ${APP_COOKIE_SECURE:-false}
+      APP_BOOTSTRAP_ENABLED: "false"
+      APP_GUARDIAN_INVITATION_EXPIRY_ENABLED: ${APP_GUARDIAN_INVITATION_EXPIRY_ENABLED:-true}
+      APP_GUARDIAN_INVITATION_EXPIRY_POLL_DELAY_MS: ${APP_GUARDIAN_INVITATION_EXPIRY_POLL_DELAY_MS:-60000}
+      APP_GUARDIAN_INVITATION_EXPIRY_INITIAL_DELAY_MS: ${APP_GUARDIAN_INVITATION_EXPIRY_INITIAL_DELAY_MS:-30000}
+      APP_CALENDAR_NOTIFICATIONS_ENABLED: ${APP_CALENDAR_NOTIFICATIONS_ENABLED:-true}
+      APP_CALENDAR_NOTIFICATIONS_POLL_DELAY_MS: ${APP_CALENDAR_NOTIFICATIONS_POLL_DELAY_MS:-60000}
+      APP_CALENDAR_NOTIFICATIONS_INITIAL_DELAY_MS: ${APP_CALENDAR_NOTIFICATIONS_INITIAL_DELAY_MS:-30000}
+      APP_LEARNING_NOTIFICATIONS_ENABLED: ${APP_LEARNING_NOTIFICATIONS_ENABLED:-true}
+      APP_LEARNING_NOTIFICATIONS_POLL_DELAY_MS: ${APP_LEARNING_NOTIFICATIONS_POLL_DELAY_MS:-60000}
+      APP_LEARNING_NOTIFICATIONS_INITIAL_DELAY_MS: ${APP_LEARNING_NOTIFICATIONS_INITIAL_DELAY_MS:-30000}
+      APP_PARENT_REQUEST_NOTIFICATIONS_ENABLED: ${APP_PARENT_REQUEST_NOTIFICATIONS_ENABLED:-true}
+      APP_PARENT_REQUEST_NOTIFICATIONS_POLL_DELAY_MS: ${APP_PARENT_REQUEST_NOTIFICATIONS_POLL_DELAY_MS:-60000}
+      APP_PARENT_REQUEST_NOTIFICATIONS_INITIAL_DELAY_MS: ${APP_PARENT_REQUEST_NOTIFICATIONS_INITIAL_DELAY_MS:-30000}
+      APP_STUDENT_LEAVE_NOTIFICATIONS_ENABLED: ${APP_STUDENT_LEAVE_NOTIFICATIONS_ENABLED:-true}
+      APP_STUDENT_LEAVE_NOTIFICATIONS_POLL_DELAY_MS: ${APP_STUDENT_LEAVE_NOTIFICATIONS_POLL_DELAY_MS:-60000}
+      APP_STUDENT_LEAVE_NOTIFICATIONS_INITIAL_DELAY_MS: ${APP_STUDENT_LEAVE_NOTIFICATIONS_INITIAL_DELAY_MS:-30000}
+      APP_PTM_REMINDERS_ENABLED: ${APP_PTM_REMINDERS_ENABLED:-true}
+      APP_PTM_REMINDERS_POLL_DELAY_MS: ${APP_PTM_REMINDERS_POLL_DELAY_MS:-60000}
+      APP_PTM_REMINDERS_INITIAL_DELAY_MS: ${APP_PTM_REMINDERS_INITIAL_DELAY_MS:-30000}
+      APP_PUSH_REGISTRATION_ENABLED: ${APP_PUSH_REGISTRATION_ENABLED:-false}
+      APP_PUSH_APPLICATION_SERVER_KEY: ${APP_PUSH_APPLICATION_SERVER_KEY:-}
+      APP_PUSH_DELIVERY_ENABLED: ${APP_PUSH_DELIVERY_ENABLED:-false}
+      APP_PUSH_WORKER_ENABLED: ${APP_PUSH_WORKER_ENABLED:-false}
+      APP_PUSH_POLL_DELAY_MS: ${APP_PUSH_POLL_DELAY_MS:-15000}
+      APP_PUSH_INITIAL_DELAY_MS: ${APP_PUSH_INITIAL_DELAY_MS:-30000}
+      APP_PUSH_DELIVERY_PRIVATE_KEY: ${APP_PUSH_DELIVERY_PRIVATE_KEY:-}
+      APP_PUSH_DELIVERY_SUBJECT: ${APP_PUSH_DELIVERY_SUBJECT:-}
+      APP_PUSH_DELIVERY_ALLOWED_HOSTS: ${APP_PUSH_DELIVERY_ALLOWED_HOSTS:-fcm.googleapis.com,updates.push.services.mozilla.com,web.push.apple.com}
+      APP_PUSH_DELIVERY_REQUEST_TIMEOUT_SECONDS: ${APP_PUSH_DELIVERY_REQUEST_TIMEOUT_SECONDS:-10}
+      MINIO_BUCKET: ${MINIO_BUCKET:-educore-private}
+      S3_ENDPOINT: http://object-storage:9000
+      S3_REGION: ${S3_REGION:-ap-south-1}
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:?Set the dedicated bucket-scoped S3_ACCESS_KEY}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:?Set the dedicated bucket-scoped S3_SECRET_KEY}
+      S3_PATH_STYLE_ACCESS: "true"
+      S3_AUTO_CREATE_BUCKET: "false"
+      CLAMAV_HOST: malware-scanner
+      CLAMAV_PORT: "3310"
+      APP_FILES_MAX_SIZE_BYTES: ${APP_FILES_MAX_SIZE_BYTES:-10485760}
+      APP_FILES_MAX_REQUEST_SIZE: ${APP_FILES_MAX_REQUEST_SIZE:-11MB}
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      object-storage-init:
+        condition: service_completed_successfully
+      malware-scanner:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health/readiness"]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  web:
+    profiles: ["application"]
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
+    environment:
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  postgres-data:
+  redis-data:
+  object-data:
+  clamav-data:
+  mail-data:

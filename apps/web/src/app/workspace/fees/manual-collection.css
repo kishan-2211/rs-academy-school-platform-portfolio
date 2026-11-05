@@ -1,0 +1,36 @@
+.manual-collection { display: grid; gap: 16px; margin-top: 22px; padding: 24px; min-width: 0; border: 1px solid var(--theme-border); border-radius: 18px; color: var(--theme-text); background: var(--theme-card); box-shadow: var(--theme-shadow-soft); }
+.manual-collection > header > span { color: var(--theme-muted); font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.manual-collection h3 { margin: 8px 0; font-family: var(--font-display), serif; font-size: clamp(22px, 2.7vw, 30px); }
+.manual-collection p { margin: 7px 0; font-size: 13px; line-height: 1.65; }
+.manual-collection > header p, .manual-collection__hint { color: var(--theme-muted); }
+.manual-collection form, .manual-collection fieldset { display: grid; gap: 16px; min-width: 0; }
+.manual-collection form > fieldset { margin: 0; padding: 0; border: 0; }
+.manual-collection form > fieldset > legend { margin-bottom: 16px; color: var(--theme-text); font-size: 15px; font-weight: 800; }
+.manual-collection__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.manual-collection label { display: grid; gap: 8px; min-width: 0; font-size: 12px; font-weight: 750; }
+.manual-collection :is(input:not([type="checkbox"]), select, textarea) { width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid var(--theme-border); border-radius: 10px; color: var(--theme-text); background: var(--theme-input); font: inherit; font-size: 14px; }
+.manual-collection textarea { resize: vertical; min-height: 76px; }
+.manual-collection input[type="checkbox"] { flex-shrink: 0; width: 22px; height: 22px; margin: 0; accent-color: var(--theme-text); }
+.manual-collection :is(.manual-collection__choice, .manual-collection__attestation) { display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 13px; line-height: 1.6; }
+.manual-collection__choice span { display: grid; gap: 3px; }
+.manual-collection__attestation { padding: 15px; border: 1px solid var(--theme-border); border-radius: 12px; background: var(--theme-surface); }
+.manual-collection__periods { margin: 0; padding: 16px; border: 1px solid var(--theme-border); border-radius: 14px; }
+.manual-collection__periods > legend { padding: 0 6px; font-size: 13px; font-weight: 800; }
+.manual-collection__period { display: grid; grid-template-columns: minmax(0, 1fr) minmax(140px, .65fr); align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--theme-border-soft); }
+.manual-collection__period strong { font-size: 14px; }
+.manual-collection__period small { color: var(--theme-muted); font-size: 12px; font-weight: 500; overflow-wrap: anywhere; }
+.manual-collection__period > div { display: grid; gap: 8px; min-width: 0; }
+.manual-collection__period > div > span { font-size: 12px; font-weight: 750; }
+.manual-collection__total { font-size: 14px !important; font-weight: 800; }
+.manual-collection button { min-height: 44px; padding: 10px 16px; border: 1px solid var(--theme-border); border-radius: 10px; color: var(--theme-action-text); background: var(--theme-action-bg); font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+.manual-collection button:hover:not(:disabled) { background: var(--theme-action-hover); }
+.manual-collection :is(input, select, textarea, button):focus-visible { outline: 3px solid var(--theme-text); outline-offset: 3px; }
+.manual-collection :disabled { cursor: not-allowed; }
+.manual-collection button:disabled { border-color: var(--theme-border-soft); color: var(--theme-muted); background: var(--theme-surface); }
+.manual-collection__submit { justify-self: start; }
+.manual-collection__alert { padding: 14px 16px; border: 1px solid var(--theme-warning-border); border-radius: 12px; color: var(--theme-warning-text); background: var(--theme-warning-bg); overflow-wrap: anywhere; }
+.manual-collection__alert--error { color: var(--theme-error-text); border-color: var(--theme-error-border); background: var(--theme-error-bg); }
+.manual-collection__alert--success { color: var(--theme-success-text); border-color: var(--theme-success-border); background: var(--theme-success-bg); }
+.manual-collection__alert button { margin-top: 8px; }
+@media (max-width: 700px) { .manual-collection { padding: 18px; } .manual-collection__fields, .manual-collection__period { grid-template-columns: minmax(0, 1fr); } .manual-collection__submit { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .manual-collection *, .manual-collection *::before, .manual-collection *::after { animation: none !important; transition: none !important; } }

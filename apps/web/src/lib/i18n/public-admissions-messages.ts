@@ -1,0 +1,21 @@
+/** Reviewed, source-controlled public copy only; school-authored records stay literal. */
+export const publicAdmissionsMessages: Record<string, string> = {
+  "Admissions": "प्रवेश",
+  "A clear path to your": "आपके अगले कदम का",
+  "next chapter.": "स्पष्ट रास्ता।",
+  "Families considering Nursery through Class X can contact R.S. Academy directly or use the enquiry journey. Admission availability, age rules, documents, and fees are confirmed by the school office before any commitment.": "नर्सरी से कक्षा 10 तक प्रवेश के इच्छुक परिवार आर.एस. अकादमी से सीधे संपर्क कर सकते हैं या जानकारी के लिए ऑनलाइन संपर्क कर सकते हैं। किसी भी प्रतिबद्धता से पहले उपलब्ध सीटों, उम्र के नियम, दस्तावेज़ और फीस की पुष्टि स्कूल कार्यालय करेगा।",
+  "01 · Discover": "01 · जानें",
+  "Understand the school": "स्कूल को समझें",
+  "Explore the CBSE pathway, school location, class range, verified notices, and contact information before sharing personal details.": "व्यक्तिगत जानकारी देने से पहले सीबीएसई आधारित पढ़ाई, स्कूल का स्थान, उपलब्ध कक्षाएँ, सत्यापित सूचनाएँ और संपर्क विवरण जानें।",
+  "02 · Meet": "02 · मिलें",
+  "Visit and talk with us": "हमसे मिलें और बात करें",
+  "Request a suitable visit or call Principal Brijesh Kumar Singh on +91 98380 02012 to confirm office availability.": "स्कूल आने के लिए उपयुक्त समय पूछें या कार्यालय की उपलब्धता की पुष्टि के लिए प्रधानाचार्य बृजेश कुमार सिंह से +91 98380 02012 पर संपर्क करें।",
+  "03 · Apply": "03 · आवेदन करें",
+  "Complete one guided application": "एक निर्देशित आवेदन पूरा करें",
+  "The full application workflow will save progress, request only approved information, protect uploaded documents, and show each next step clearly. Until launch, an online submission is an enquiry—not an admission offer.": "पूरी आवेदन प्रक्रिया में प्रगति सहेजी जाएगी, केवल स्वीकृत जानकारी माँगी जाएगी, अपलोड किए गए दस्तावेज़ सुरक्षित रखे जाएँगे और हर अगला कदम स्पष्ट होगा। लॉन्च होने तक ऑनलाइन आवेदन जानकारी के लिए किया गया संपर्क है—प्रवेश का प्रस्ताव नहीं।",
+  "Your next step": "आपका अगला कदम",
+  "See the school for yourself.": "स्कूल आकर खुद जानें।",
+  "Come with questions. Leave with a clearer sense of the people, place, and possibilities.": "अपने सवाल लेकर आइए। यहाँ के लोगों, परिसर और अवसरों को बेहतर समझकर जाइए।",
+  "Book a visit": "स्कूल आने का समय लें",
+  "Ask a question": "सवाल पूछें",
+};

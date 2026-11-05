@@ -1,0 +1,78 @@
+# Disposable test services only. No school database or production settings.
+services:
+  object-storage:
+    platform: linux/amd64
+    build:
+      context: ./private-files-test
+      target: server
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: ${PRIVATE_FILES_TEST_ROOT_USER:?Use the private-file verification script}
+      MINIO_ROOT_PASSWORD: ${PRIVATE_FILES_TEST_ROOT_PASSWORD:?Use the private-file verification script}
+    ports:
+      - "127.0.0.1:${PRIVATE_FILES_TEST_S3_PORT:-19000}:9000"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-T", "2", "-O", "/dev/null", "http://127.0.0.1:9000/minio/health/ready"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    security_opt:
+      - no-new-privileges:true
+
+  object-storage-init:
+    platform: linux/amd64
+    build:
+      context: ./private-files-test
+      target: client
+    depends_on:
+      object-storage:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${PRIVATE_FILES_TEST_ROOT_USER:?Use the private-file verification script}
+      MINIO_ROOT_PASSWORD: ${PRIVATE_FILES_TEST_ROOT_PASSWORD:?Use the private-file verification script}
+      RUNTIME_ACCESS_KEY: ${PRIVATE_FILES_TEST_ACCESS_KEY:?Use the private-file verification script}
+      RUNTIME_SECRET_KEY: ${PRIVATE_FILES_TEST_SECRET_KEY:?Use the private-file verification script}
+    volumes:
+      # Repository policy only, read-only. Never mount .env, uploads or school data.
+      - ./policies/private-files-runtime-policy.json:/opt/educore/runtime-policy.json:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        set -eu;
+        test "$${MINIO_ROOT_USER}" != "$${RUNTIME_ACCESS_KEY}" &&
+        test "$${MINIO_ROOT_PASSWORD}" != "$${RUNTIME_SECRET_KEY}" &&
+        mc alias set local http://object-storage:9000 "$${MINIO_ROOT_USER}" "$${MINIO_ROOT_PASSWORD}" >/dev/null 2>&1 &&
+        mc mb local/educore-private-files-integration &&
+        mc anonymous set none local/educore-private-files-integration &&
+        mc mb local/educore-private-files-other-scope &&
+        mc anonymous set none local/educore-private-files-other-scope &&
+        printf '%s' 'Synthetic other-scope bytes only.' | mc pipe local/educore-private-files-other-scope/synthetic-other-scope.txt &&
+        sed 's/__BUCKET_NAME__/educore-private-files-integration/g' /opt/educore/runtime-policy.json > /tmp/runtime-policy.json &&
+        mc admin policy create local private-files-runtime /tmp/runtime-policy.json &&
+        mc admin user add local "$${RUNTIME_ACCESS_KEY}" "$${RUNTIME_SECRET_KEY}" >/dev/null 2>&1 &&
+        mc admin policy attach local private-files-runtime --user "$${RUNTIME_ACCESS_KEY}" >/dev/null 2>&1
+    security_opt:
+      - no-new-privileges:true
+
+  malware-scanner:
+    # Official 1.4 feature line, with preloaded signatures for ephemeral CI.
+    image: clamav/clamav:1.4
+    environment:
+      # VERSION's loaded-database ctime has no offset. Make its interpretation
+      # explicit for the release freshness probe.
+      TZ: UTC
+      LC_ALL: C
+      # This disposable fixture runs one bounded official update/notify before
+      # checking loaded definitions. Never race a background updater or weaken
+      # the freshness threshold. Production updater settings are unchanged.
+      CLAMAV_NO_FRESHCLAMD: "true"
+    ports:
+      - "127.0.0.1:${PRIVATE_FILES_TEST_CLAMAV_PORT:-13310}:3310"
+    healthcheck:
+      test: ["CMD", "clamdscan", "--ping=1"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 30s
+    security_opt:
+      - no-new-privileges:true

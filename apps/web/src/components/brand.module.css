@@ -1,0 +1,2 @@
+.inverse { color: var(--theme-text); }
+.inverse :global(.brand__words small) { color: var(--theme-muted); }

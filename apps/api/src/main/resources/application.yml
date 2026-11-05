@@ -1,0 +1,190 @@
+spring:
+  application:
+    name: educore-api
+    version: ${APP_VERSION:dev}
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/educore}
+    username: ${DATABASE_USER:educore}
+    password: ${DATABASE_PASSWORD:change-me-locally}
+    hikari:
+      maximum-pool-size: ${DATABASE_POOL_SIZE:10}
+      minimum-idle: ${DATABASE_MIN_IDLE:2}
+      connection-timeout: 10000
+      validation-timeout: 3000
+      max-lifetime: 1700000
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    validate-migration-naming: true
+    clean-disabled: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        order_inserts: true
+        order_updates: true
+        default_batch_fetch_size: 50
+  jackson:
+    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: ${APP_FILES_MAX_REQUEST_SIZE:11MB}
+      max-request-size: ${APP_FILES_MAX_REQUEST_SIZE:11MB}
+      file-size-threshold: 0
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  shutdown: graceful
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: ${APP_COOKIE_SECURE:false}
+
+app:
+  public-url: ${APP_PUBLIC_URL:http://localhost:3000}
+  allowed-origins: ${APP_ALLOWED_ORIGINS:http://localhost:3000}
+  public-organisation-id: ${APP_PUBLIC_ORGANISATION_ID:10000000-0000-4000-8000-000000000001}
+  public-school-id: ${APP_PUBLIC_SCHOOL_ID:10000000-0000-4000-8000-000000000002}
+  guardian-invitations:
+    expiry:
+      enabled: ${APP_GUARDIAN_INVITATION_EXPIRY_ENABLED:true}
+      poll-delay-ms: ${APP_GUARDIAN_INVITATION_EXPIRY_POLL_DELAY_MS:60000}
+      initial-delay-ms: ${APP_GUARDIAN_INVITATION_EXPIRY_INITIAL_DELAY_MS:30000}
+  calendar:
+    notifications:
+      enabled: ${APP_CALENDAR_NOTIFICATIONS_ENABLED:true}
+      poll-delay-ms: ${APP_CALENDAR_NOTIFICATIONS_POLL_DELAY_MS:60000}
+      initial-delay-ms: ${APP_CALENDAR_NOTIFICATIONS_INITIAL_DELAY_MS:30000}
+  learning:
+    notifications:
+      enabled: ${APP_LEARNING_NOTIFICATIONS_ENABLED:true}
+      poll-delay-ms: ${APP_LEARNING_NOTIFICATIONS_POLL_DELAY_MS:60000}
+      initial-delay-ms: ${APP_LEARNING_NOTIFICATIONS_INITIAL_DELAY_MS:30000}
+  parent-requests:
+    notifications:
+      enabled: ${APP_PARENT_REQUEST_NOTIFICATIONS_ENABLED:true}
+      poll-delay-ms: ${APP_PARENT_REQUEST_NOTIFICATIONS_POLL_DELAY_MS:60000}
+      initial-delay-ms: ${APP_PARENT_REQUEST_NOTIFICATIONS_INITIAL_DELAY_MS:30000}
+  student-leave:
+    notifications:
+      enabled: ${APP_STUDENT_LEAVE_NOTIFICATIONS_ENABLED:true}
+      poll-delay-ms: ${APP_STUDENT_LEAVE_NOTIFICATIONS_POLL_DELAY_MS:60000}
+      initial-delay-ms: ${APP_STUDENT_LEAVE_NOTIFICATIONS_INITIAL_DELAY_MS:30000}
+  push:
+    registration-enabled: ${APP_PUSH_REGISTRATION_ENABLED:false}
+    application-server-key: ${APP_PUSH_APPLICATION_SERVER_KEY:}
+    delivery:
+      enabled: ${APP_PUSH_DELIVERY_ENABLED:false}
+      worker-enabled: ${APP_PUSH_WORKER_ENABLED:false}
+      poll-delay-ms: ${APP_PUSH_POLL_DELAY_MS:15000}
+      initial-delay-ms: ${APP_PUSH_INITIAL_DELAY_MS:30000}
+      private-key: ${APP_PUSH_DELIVERY_PRIVATE_KEY:}
+      subject: ${APP_PUSH_DELIVERY_SUBJECT:}
+      allowed-hosts: ${APP_PUSH_DELIVERY_ALLOWED_HOSTS:fcm.googleapis.com,updates.push.services.mozilla.com,web.push.apple.com}
+      request-timeout-seconds: ${APP_PUSH_DELIVERY_REQUEST_TIMEOUT_SECONDS:10}
+  security:
+    session-cookie-name: educore_session
+    cookie-secure: ${APP_COOKIE_SECURE:false}
+    cookie-domain: ${APP_COOKIE_DOMAIN:}
+    session-ttl: 8h
+    remembered-session-ttl: 30d
+    idle-timeout: 45m
+    encryption-key: ${APP_ENCRYPTION_KEY:}
+    mfa-challenge-ttl: 5m
+    mfa-enrollment-ttl: 10m
+    guardian-invitation-ttl: ${APP_GUARDIAN_INVITATION_TTL:72h}
+    totp-issuer: ${APP_TOTP_ISSUER:EduCore}
+  bootstrap:
+    enabled: ${APP_BOOTSTRAP_ENABLED:false}
+    admin-email: ${APP_BOOTSTRAP_ADMIN_EMAIL:}
+    admin-password: ${APP_BOOTSTRAP_ADMIN_PASSWORD:}
+  files:
+    endpoint: ${S3_ENDPOINT:http://localhost:9000}
+    region: ${S3_REGION:ap-south-1}
+    bucket: ${MINIO_BUCKET:educore-private}
+    access-key: ${S3_ACCESS_KEY:educore-local}
+    secret-key: ${S3_SECRET_KEY:change-me-locally}
+    connect-timeout: ${S3_CONNECT_TIMEOUT:3s}
+    read-timeout: ${S3_READ_TIMEOUT:30s}
+    path-style-access: ${S3_PATH_STYLE_ACCESS:true}
+    auto-create-bucket: ${S3_AUTO_CREATE_BUCKET:true}
+    max-size-bytes: ${APP_FILES_MAX_SIZE_BYTES:10485760}
+    allowed-media-types:
+      - application/pdf
+      - image/jpeg
+      - image/png
+      - image/webp
+    clamav:
+      host: ${CLAMAV_HOST:localhost}
+      port: ${CLAMAV_PORT:3310}
+      connect-timeout: ${CLAMAV_CONNECT_TIMEOUT:3s}
+      read-timeout: ${CLAMAV_READ_TIMEOUT:30s}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+      group:
+        readiness:
+          include: readinessState,db,privateFiles
+        liveness:
+          include: livenessState
+  health:
+    mail:
+      enabled: false
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%X{requestId:-system}] %logger{36} - %msg%n"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  flyway:
+    enabled: false
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: false
+
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
+
+app:
+  files:
+    auto-create-bucket: false
+  security:
+    cookie-secure: true
+  bootstrap:
+    enabled: false

@@ -1,0 +1,27 @@
+.inbox { width: min(100% - 32px, 1040px); margin: 28px auto 64px; display: grid; gap: 24px; color: var(--theme-text); }
+.hero, .card { padding: clamp(20px, 4vw, 36px); border: 1px solid var(--theme-border); border-radius: 22px; background: var(--theme-card); box-shadow: var(--theme-shadow-soft); min-width: 0; }
+.hero { background: var(--theme-bg-soft); }
+.hero > span { color: var(--theme-muted); font-size: .8rem; font-weight: 750; letter-spacing: .06em; }
+.hero h1 { font: 500 clamp(2rem, 4vw, 3rem) var(--font-serif); margin: 12px 0; }
+.inbox h2 { font: 500 1.8rem var(--font-serif); }
+.card h3 { margin: 18px 0; font-size: 1.25rem; overflow-wrap: anywhere; }
+.inbox p { line-height: 1.65; overflow-wrap: anywhere; }
+.tools { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
+.tools label { display: grid; gap: 8px; font-weight: 650; min-width: 0; }
+.tools input, .tools select { width: 100%; min-width: 0; min-height: 44px; padding: 10px; font: inherit; color: var(--theme-text); background: var(--theme-input); border: 1px solid var(--theme-border); border-radius: 10px; }
+.list { display: grid; gap: 18px; }
+.tags, .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.tags { font-size: .8rem; text-transform: capitalize; }
+.tags > * { padding: 6px 10px; border-radius: 18px; background: var(--theme-bg-soft); }
+.tags .urgent { color: var(--theme-error-text); background: var(--theme-error-bg); }
+.body { white-space: pre-wrap; }
+.meta { color: var(--theme-muted); font-size: .85rem; }
+.actions { margin-top: 16px; }
+.actions button, .actions a { min-height: 44px; padding: 10px 16px; border: 1px solid var(--theme-border); border-radius: 10px; font: inherit; font-weight: 650; color: var(--theme-text); background: var(--theme-bg-soft); cursor: pointer; text-decoration: none; }
+.actions button:hover:not(:disabled), .actions a:hover { border-color: var(--theme-text); }
+.actions button:disabled { opacity: .65; cursor: not-allowed; }
+.inbox :is(button, a, input, select, h2):focus-visible { outline: 3px solid var(--theme-text); outline-offset: 3px; }
+.error { padding: 16px; color: var(--theme-error-text); background: var(--theme-error-bg); border: 1px solid var(--theme-error-border); border-radius: 12px; }
+.error a { color: inherit; text-decoration: underline; }
+.success { padding: 16px; color: var(--theme-success-text); background: var(--theme-success-bg); border-radius: 12px; }
+@media (max-width: 640px) { .inbox { width: calc(100% - 24px); } .tools { grid-template-columns: 1fr; } .actions button, .actions a { width: 100%; text-align: center; } }

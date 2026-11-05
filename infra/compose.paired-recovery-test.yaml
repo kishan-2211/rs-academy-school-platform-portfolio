@@ -1,0 +1,19 @@
+# Additive overlay for verify-private-files-integration.ps1 -PairedRecovery only.
+# No developer .env, school volumes, fixed passwords or production endpoints.
+services:
+  recovery-postgres:
+    image: postgres:18.4-alpine
+    environment:
+      POSTGRES_DB: educore_paired_integration
+      POSTGRES_USER: educore_paired_test
+      POSTGRES_PASSWORD: ${PRIVATE_FILES_TEST_DATABASE_PASSWORD:?Use the guarded paired recovery workflow}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --auth-local=scram-sha-256
+    ports:
+      - "127.0.0.1:${PRIVATE_FILES_TEST_DATABASE_PORT:-15432}:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "educore_paired_test", "-d", "educore_paired_integration"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    security_opt:
+      - no-new-privileges:true

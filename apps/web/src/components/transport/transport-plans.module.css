@@ -1,0 +1,63 @@
+.centre { width: min(1120px, calc(100% - 48px)); margin: 40px auto 72px; color: var(--theme-text); }
+.hero { padding: 28px 0; max-width: 800px; }
+.hero > span, .policyHeader > span { font-size: .8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.hero h1 { font-family: var(--font-serif), serif; font-size: clamp(2rem, 4vw, 3.3rem); line-height: 1.12; margin: 12px 0 18px; }
+.hero p, .muted, .dateSummary { color: var(--theme-muted); }
+.childPicker { display: grid; gap: 8px; max-width: 440px; font-weight: 700; margin-bottom: 24px; }
+.dayPanel, .policyPanel { min-width: 0; display: grid; gap: 20px; }
+.dayPanel p, .policyPanel p { margin: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.journeys { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.card, .form, .history, .policyPanel { background: var(--theme-card); border: 1px solid var(--theme-border); border-radius: 20px; padding: 24px; box-shadow: var(--theme-shadow-soft); }
+.card { display: grid; align-content: start; gap: 12px; min-width: 0; }
+.card h2, .history h2, .policyHeader h2 { font-size: 1.3rem; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
+.card > span { color: var(--theme-muted); font-size: .85rem; font-weight: 700; }
+.card p, .rosterPlan { overflow-wrap: anywhere; }
+.form { display: grid; gap: 22px; }
+.form fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.form legend { margin-bottom: 12px; font-weight: 800; }
+.choices { display: flex; flex-wrap: wrap; gap: 12px; }
+.choices label { display: flex; gap: 10px; align-items: center; min-height: 48px; padding: 10px 14px; background: var(--theme-surface); border: 1px solid var(--theme-border); border-radius: 12px; cursor: pointer; }
+.choices input { width: 20px; height: 20px; flex: 0 0 auto; accent-color: var(--theme-action-bg); }
+.choices label:has(input:checked) { border-color: var(--theme-text); }
+.choices label:has(input:disabled) { cursor: default; color: var(--theme-muted); }
+.form fieldset > p { margin-top: 12px; font-size: .9rem; }
+.centre button, .policyPanel button { min-height: 44px; padding: 10px 18px; border: 1px solid var(--theme-action-bg); border-radius: 12px; background: var(--theme-action-bg); color: var(--theme-action-text); font: inherit; font-weight: 700; cursor: pointer; }
+.centre button:hover:not(:disabled), .policyPanel button:hover:not(:disabled) { background: var(--theme-action-hover); }
+.centre button:disabled, .policyPanel button:disabled { background: var(--theme-neutral-bg); color: var(--theme-muted); border-color: var(--theme-neutral-border); cursor: not-allowed; }
+.centre a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px; text-decoration: underline; text-underline-offset: 4px; }
+.centre select, .policyPanel select, .policyPanel input:not([type="checkbox"]), .policyPanel textarea { width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; background: var(--theme-input); color: var(--theme-text); border: 1px solid var(--theme-border); border-radius: 10px; font: inherit; }
+.centre :is(button, a, select, input):focus-visible, .policyPanel :is(button, select, input, textarea):focus-visible { outline: 3px solid var(--theme-text); outline-offset: 4px; }
+.empty { padding: 18px; background: var(--theme-surface); border: 1px dashed var(--theme-border); border-radius: 12px; color: var(--theme-muted); }
+.warning, .error, .success { padding: 14px 18px; border: 1px solid; border-radius: 12px; overflow-wrap: anywhere; }
+.warning { color: var(--theme-warning-text); background: var(--theme-warning-bg); border-color: var(--theme-warning-border); }
+.error { color: var(--theme-error-text); background: var(--theme-error-bg); border-color: var(--theme-error-border); }
+.success { color: var(--theme-success-text); background: var(--theme-success-bg); border-color: var(--theme-success-border); }
+.warning button { margin-top: 12px; }
+.statusWarning, .statusNeutral { display: block; border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+.statusWarning { color: var(--theme-warning-text); background: var(--theme-warning-bg); }
+.statusNeutral { color: var(--theme-text-soft); background: var(--theme-neutral-bg); }
+.history ol { padding: 0; margin: 18px 0 0; list-style: none; }
+.history li { display: grid; gap: 6px; padding: 14px 0; border-top: 1px solid var(--theme-border-soft); }
+.history li span { font-size: .9rem; color: var(--theme-muted); }
+.policyPanel { margin: 24px 0; color: var(--theme-text); }
+.policyPanel .policyHeader h2, .policyPanel .policyGrid label, .policyPanel .childPicker, .policyPanel .policyFields legend { color: var(--theme-text); }
+.policyHeader { display: grid; gap: 10px; }
+.policyHeader p { max-width: 880px; color: var(--theme-muted); }
+.policyGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.policyGrid label { display: grid; gap: 8px; font-weight: 700; min-width: 0; }
+.policyGrid .wide { grid-column: 1 / -1; }
+.policyGrid .check { display: flex; align-items: center; gap: 12px; min-height: 48px; }
+.policyGrid .check input { width: 22px; height: 22px; accent-color: var(--theme-action-bg); }
+.policyGrid textarea { resize: vertical; min-height: 100px; }
+.policyFields { padding: 0; margin: 20px 0 0; border: 0; min-width: 0; }
+.policyFields legend { margin-bottom: 12px; font-weight: 800; }
+.rosterPlan { display: grid; gap: 6px; border-left: 3px solid var(--theme-warning-border); background: var(--theme-warning-bg); color: var(--theme-warning-text); border-radius: 6px; padding: 12px; margin-top: 10px; font-size: .85rem; }
+.rosterPlan strong, .rosterPlan small, .rosterPlan time { color: inherit !important; }
+@media (max-width: 600px) {
+  .centre { width: calc(100% - 32px); margin-top: 16px; }
+  .journeys, .policyGrid { grid-template-columns: minmax(0, 1fr); }
+  .card, .form, .history, .policyPanel { padding: 18px; border-radius: 16px; }
+  .choices { flex-direction: column; }
+  .form > button { width: 100%; }
+}

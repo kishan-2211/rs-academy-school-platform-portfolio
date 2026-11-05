@@ -1,0 +1,99 @@
+.card {
+  width: min(1280px, calc(100% - 44px));
+  margin: 16px auto 0;
+  padding: clamp(20px, 4vw, 34px);
+  background:
+    radial-gradient(circle at 95% 0, rgba(248, 209, 124, 0.18), transparent 18rem),
+    color-mix(in srgb, var(--theme-card) 92%, transparent);
+  border: 1px solid var(--theme-border-soft);
+  border-radius: 22px;
+  box-shadow: var(--theme-shadow-soft);
+}
+
+.card > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.card > header span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #d86048;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.card > header span svg { width: 15px; }
+.card h2 { margin: 5px 0 0; font-family: var(--font-serif), Georgia, serif; font-size: clamp(27px, 4vw, 40px); font-weight: 500; letter-spacing: -0.04em; }
+.card > header > em, .history em { padding: 6px 9px; color: var(--theme-success-text); background: var(--theme-success-bg); font-size: 7px; font-style: normal; font-weight: 850; border-radius: 999px; }
+.card > header > em[data-state="SUSPENDED"], .history em[data-state="DECLINED"], .history em[data-state="REVOKED"] { color: var(--theme-error-text); background: var(--theme-error-bg); }
+.card > header > em[data-state="ENDED"], .history em[data-state="WITHDRAWN"], .history em[data-state="EXPIRED"] { color: var(--theme-muted); background: var(--theme-neutral-bg); }
+
+.privacy { display: flex; gap: 10px; margin-top: 16px; padding: 13px; color: var(--theme-success-text); background: var(--theme-success-bg); border: 1px solid var(--theme-success-border); border-radius: 12px; }
+.privacy svg { flex: 0 0 auto; width: 19px; }
+.privacy p { margin: 0; font-size: 9px; line-height: 1.6; }
+
+.state, .error, .notice { margin-top: 14px; padding: 13px 15px; font-size: 9px; border-radius: 10px; }
+.state { color: var(--theme-muted); background: var(--theme-bg-soft); }
+.error { color: var(--theme-error-text); background: var(--theme-error-bg); border: 1px solid var(--theme-error-border); }
+.notice { display: flex; align-items: center; gap: 7px; color: var(--theme-success-text); background: var(--theme-success-bg); border: 1px solid var(--theme-success-border); }
+.notice svg { width: 15px; }
+
+.account { margin-top: 16px; padding: 16px; background: #173b42; color: white; border-radius: 14px; }
+.account > div { display: flex; align-items: center; gap: 12px; }
+.account > div > span { width: 40px; height: 40px; display: grid; place-items: center; color: #173b42; background: #f8d17c; border-radius: 13px; }
+.account svg { width: 18px; }
+.account div div { display: flex; flex-direction: column; }
+.account small { color: #a9ddca; font-size: 7px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
+.account strong { margin-top: 2px; font-family: var(--font-serif), Georgia, serif; font-size: 20px; font-weight: 520; }
+.account p { margin: 2px 0 0; color: rgba(255,255,255,0.6); font-size: 8px; }
+.reason { margin-top: 11px !important; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
+
+.decision { margin-top: 16px; padding: 18px; background: var(--theme-bg-soft); border: 1px solid var(--theme-border-soft); border-radius: 15px; }
+.decision > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.decision header span { color: #ad6947; font-size: 8px; font-weight: 850; text-transform: uppercase; letter-spacing: 0.1em; }
+.decision h3 { margin: 4px 0 0; font-family: var(--font-serif), Georgia, serif; font-size: 24px; font-weight: 520; }
+.decision header small { color: var(--theme-muted); font-size: 8px; }
+.decision dl { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin: 15px 0 0; }
+.decision dl div { padding: 10px; background: color-mix(in srgb, var(--theme-card) 65%, transparent); border-radius: 9px; }
+.decision dt { color: var(--theme-muted); font-size: 7px; font-weight: 750; text-transform: uppercase; }
+.decision dd { margin: 3px 0 0; font-size: 10px; font-weight: 800; }
+.purpose { margin-top: 9px; padding: 11px; color: var(--theme-text-soft); background: color-mix(in srgb, var(--theme-card) 55%, transparent); border-radius: 9px; }
+.purpose strong { font-size: 8px; }
+.purpose p { margin: 4px 0 0; font-size: 9px; line-height: 1.55; }
+.passwords { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; margin-top: 12px; }
+.decision label, .withdrawal label { display: flex; flex-direction: column; gap: 5px; color: var(--theme-muted); font-size: 8px; font-weight: 800; }
+.decision input, .decision textarea, .withdrawal textarea { width: 100%; padding: 10px; color: var(--theme-text); background: var(--theme-card); font: inherit; font-size: 10px; border: 1px solid var(--theme-border-soft); border-radius: 9px; }
+.decision textarea, .withdrawal textarea { min-height: 72px; resize: vertical; }
+.decision input:focus, .decision textarea:focus, .withdrawal textarea:focus { border-color: #69a089; box-shadow: 0 0 0 3px rgba(105,160,137,0.13); outline: none; }
+.decision label small { color: var(--theme-muted); font-size: 7px; font-weight: 550; }
+.reasonField { margin-top: 9px; }
+.decision > footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+.decision button, .withdrawal button { padding: 9px 12px; font: inherit; font-size: 8px; font-weight: 850; border-radius: 9px; cursor: pointer; }
+.decision button:disabled, .withdrawal button:disabled { opacity: 0.45; cursor: not-allowed; }
+.decline { color: #854231; background: transparent; border: 1px solid rgba(133,66,49,0.24); }
+.approve { color: white; background: #173b42; border: 1px solid #173b42; }
+
+.withdrawal, .history { margin-top: 12px; background: var(--theme-bg-soft); border: 1px solid var(--theme-border-soft); border-radius: 11px; }
+.withdrawal > summary, .history > summary { padding: 12px 14px; color: var(--theme-muted); font-size: 9px; font-weight: 820; cursor: pointer; }
+.withdrawal form { padding: 0 14px 14px; }
+.withdrawal p { margin: 0 0 9px; color: var(--theme-muted); font-size: 8px; line-height: 1.5; }
+.withdrawal button { margin-top: 9px; color: var(--theme-error-text); background: var(--theme-error-bg); border: 1px solid var(--theme-error-border); }
+.history ol { display: grid; gap: 0; margin: 0; padding: 0 14px 13px; list-style: none; }
+.history li { display: flex; align-items: center; justify-content: space-between; gap: 13px; padding: 10px 0; border-top: 1px solid var(--theme-border-soft); }
+.history li div { min-width: 0; display: flex; flex-direction: column; }
+.history li strong { font-size: 9px; }
+.history li small { overflow: hidden; color: var(--theme-muted); font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (max-width: 620px) {
+  .card { width: calc(100% - 24px); padding: 18px 16px; }
+  .decision > header, .decision > footer { align-items: flex-start; flex-direction: column; }
+  .decision dl, .passwords { grid-template-columns: 1fr; }
+  .decision > footer button { width: 100%; }
+  .history li { align-items: flex-start; }
+}

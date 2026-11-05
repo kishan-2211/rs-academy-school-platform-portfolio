@@ -1,0 +1,23 @@
+/** Product-owned fee workspace copy only; never translate school or financial records. */
+export const financeShellMessages: Record<string, string> = {
+  "Fees & accountable finance": "फीस और ज़िम्मेदार वित्त प्रबंधन",
+  "Every amount has a reason, owner, and history.": "हर राशि का कारण, ज़िम्मेदार व्यक्ति और पूरा रिकॉर्ड।",
+  "Draft the school's real schedules, activate them with authority, issue sequential receipts, and correct mistakes through visible counter-entries.": "स्कूल की वास्तविक फीस योजनाएँ बनाएँ, अधिकृत स्वीकृति से लागू करें, क्रमांक वाली रसीदें दें और गलती सुधारने के लिए स्पष्ट उलट प्रविष्टियाँ दर्ज करें।",
+  "Current account balance": "खातों का मौजूदा शेष",
+  "Card details never enter this application": "कार्ड की निजी जानकारी इस ऐप में नहीं आती",
+  "{count} approval waiting": "{count} स्वीकृति लंबित है",
+  "{count} approvals waiting": "{count} स्वीकृतियाँ लंबित हैं",
+  "Finance sections": "फीस और वित्त के भाग",
+  "Learner accounts": "विद्यार्थियों के शुल्क खाते",
+  "Fee configuration": "फीस की व्यवस्था",
+  "Ageing & close": "पुराना बकाया और दिन का समापन",
+  "Approvals": "स्वीकृतियाँ",
+  "Accounts": "खाते",
+  "No plan has been assigned to a learner yet.": "अभी किसी विद्यार्थी को फीस योजना नहीं सौंपी गई है।",
+  "No learner fee account yet": "अभी विद्यार्थी का शुल्क खाता नहीं है",
+  "Activate a reviewed plan, then assign it to a current enrolment.": "समीक्षित फीस योजना लागू करें, फिर उसे विद्यार्थी के मौजूदा नामांकन से जोड़ें।",
+  "Finance is unavailable": "फीस और वित्त की जानकारी उपलब्ध नहीं है",
+  "Opening the finance workspace…": "फीस और वित्त का कार्यस्थल खुल रहा है…",
+  "Account history — new collections unavailable": "खाते का इतिहास — नई वसूली उपलब्ध नहीं",
+  "This fee account is not active. Review its existing records and any eligible original-account reopening request; no new payment can be collected here.": "यह शुल्क खाता सक्रिय नहीं है। इसके पुराने रिकॉर्ड और पात्र मूल-खाता सक्रियकरण अनुरोध की समीक्षा करें; यहाँ नया भुगतान दर्ज नहीं किया जा सकता।",
+};
