@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
+        <version>4.1.2</version>
         <relativePath/>
     </parent>
 
@@ -22,12 +22,12 @@
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <bouncycastle.version>1.85.2</bouncycastle.version>
+        <bouncycastle.version>1.86</bouncycastle.version>
         <pdfbox.version>3.0.8</pdfbox.version>
         <zxing.version>3.5.4</zxing.version>
-        <aws.sdk.version>2.54.9</aws.sdk.version>
+        <aws.sdk.version>2.57.6</aws.sdk.version>
         <testcontainers.version>1.21.4</testcontainers.version>
-        <commons-compress.version>1.26.0</commons-compress.version>
+        <commons-compress.version>1.28.0</commons-compress.version>
         <httpclient5.version>5.6.3</httpclient5.version>
         <httpcore5.version>5.4.3</httpcore5.version>
         <jackson-bom.version>3.1.7</jackson-bom.version>
@@ -190,7 +190,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.15</version>
+                <version>0.8.16</version>
                 <executions>
                     <execution><goals><goal>prepare-agent</goal></goals></execution>
                     <execution>
