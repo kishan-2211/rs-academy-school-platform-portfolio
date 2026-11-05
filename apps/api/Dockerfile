@@ -6,7 +6,7 @@ COPY apps/api/src apps/api/src
 RUN mvn -B -ntp -f apps/api/pom.xml verify -DskipTests \
     && java -Djarmode=tools -jar apps/api/target/educore-api-0.1.0-SNAPSHOT.jar extract --layers --destination apps/api/target/extracted
 
-FROM eclipse-temurin:21-jre-alpine AS runtime
+FROM eclipse-temurin:24-jre-alpine AS runtime
 WORKDIR /app
 RUN apk add --no-cache --upgrade \
         libcrypto3=3.5.9-r0 libssl3=3.5.9-r0 openssl=3.5.9-r0 \
