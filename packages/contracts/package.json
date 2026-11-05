@@ -10,6 +10,6 @@
     "format": "node -e \"console.log('OpenAPI is formatted manually')\""
   },
   "devDependencies": {
-    "@redocly/cli": "2.46.1"
+    "@redocly/cli": "2.72.0"
   }
 }
