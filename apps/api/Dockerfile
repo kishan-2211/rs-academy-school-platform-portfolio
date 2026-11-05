@@ -1,4 +1,4 @@
-FROM maven:3.9.11-eclipse-temurin-21-alpine AS builder
+FROM maven:3.9-eclipse-temurin-26-alpine AS builder
 WORKDIR /workspace
 COPY apps/api/pom.xml apps/api/pom.xml
 RUN mvn -B -ntp -f apps/api/pom.xml dependency:go-offline
